@@ -1,5 +1,7 @@
 module.exports = function (grunt) {
 
+    var src = ['src/shell.js', 'src/**/*.js'];
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concat: {
@@ -7,8 +9,8 @@ module.exports = function (grunt) {
                 separator: ';',
             },
             dist: {
-                src: ['src/shell.js', 'src/**/*.js'],
-                dest: 'dist/built.js'
+                src: src,
+                dest: 'dist/shell.js'
             }
 
         },
@@ -17,12 +19,31 @@ module.exports = function (grunt) {
                 src: 'dist/shell.js',
                 dest: 'dist/shell.min.js'
             }
+        },
+        jasmine: {
+            pivotal: {
+                src: 'dist/shell.js',
+                options: {
+                    specs: 'test/*.spec.js'
+                }
+            }
+        },
+        jsdoc: {
+            dist: {
+                src: src,
+                options: {
+                    destination: '/dist/doc'
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-jsdoc');
 
-    grunt.registerTask('default', ['concat']);
+    grunt.registerTask('default', ['concat', 'uglify', 'jasmine']);
+    grunt.registerTask('doc', ['jsdoc']);
 
 };
