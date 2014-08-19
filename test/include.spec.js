@@ -1,32 +1,57 @@
-describe('Shell.exportMethod', function () {
+describe('Shell.include', function () {
 	
-	noop = function() {};
+    it('Include core module without dependency', function () {
+    	var status = false;
+    	Shell.include('core-1', null, function() {
+    		status = true;
+    	});
+    	expect(status).toEqual(true);
+    });
 	
-    it('One level namespace', function () {
-    	Shell.exportMethod('level1', noop);
-    	expect(Shell.level1).toEqual(noop);
-    });
-    
-    it('Two level namespace', function () {
-    	Shell.exportMethod('levelA.levelB', noop);
-    	expect(Shell.levelA.levelB).toEqual(noop);
-    });
-
-    it('Undefined namespace', function () {
-    	Shell.exportMethod('levelOne', noop);
-    	expect(Shell.levelOne.levelTwo).not.toBeDefined(); 
+    it('Include core module with one dependency', function () {
+    	var status = false;
+    	Shell.include('core-2', null, function() {
+    		return 'core-2'
+    	});
+    	Shell.include('core-3', ['core-2'], function(core2) {
+    		expect(core2).toEqual('core-2');
+    		status = true;
+    	});
+    	expect(status).toEqual(true);
     });
 
-    it('Invalid namespace', function () {
+    it('Include core module with multiple dependencies', function () {
+    	var status = false;
+    	Shell.include('core-4', null, function() {
+    		return 'core-4'
+    	});
+    	Shell.include('core-5', null, function() {
+    		return 'core-5'
+    	});
+    	Shell.include('core-6', ['core-4', 'core-5'], function(core4, core5) {
+    		expect(core4).toEqual('core-4');
+    		expect(core5).toEqual('core-5');
+    		status = true;
+    	});
+    	expect(status).toEqual(true);
+    });
+
+    it('Include core module with a bad id', function () {
     	expect(function() {
-    		Shell.exportMethod(123, noop);
-    	}).toThrow(); 
+    		Shell.include(12345, null, function() {});
+    	}).toThrow();
     });
 
-    it('Invalid method', function () {
+    it('Include core module with a bad dependency list', function () {
     	expect(function() {
-    		Shell.exportMethod('Level01', null);
-    	}).toThrow(); 
+    		Shell.include('core-7', 12345, function() {});
+    	}).toThrow();
     });
-    
+
+    it('Include core module with a bad constructor function', function () {
+    	expect(function() {
+    		Shell.include('core-7', null, 12345);
+    	}).toThrow();
+    });
+     
 });
