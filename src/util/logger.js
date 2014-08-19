@@ -11,7 +11,6 @@ Shell.include('Util.Logger', null, function() {
 
     // Generic log function
     var log = function(action, args) {
-        var args = Array.prototype.slice.apply(args);
         console[action].apply(console, args);
     }
     
