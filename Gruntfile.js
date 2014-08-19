@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 
-    var src = ['src/shell.js', 'src/**/*.js'];
+    var src = ['src/shell.js', 'src/shell.include.js', 'src/**/*.js'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
             pivotal: {
                 src: 'dist/shell.js',
                 options: {
-                    specs: 'test/*.spec.js'
+                    specs: 'test/**/*.spec.js'
                 }
             }
         },
