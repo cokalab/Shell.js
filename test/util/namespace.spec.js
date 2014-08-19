@@ -1,6 +1,6 @@
 Shell.include('Test.Util.Namespace', ['Util.Namespace'], function(Namespace) {
 
-    describe('Shell.exportMethod', function () {
+    describe('Util.Namespace.exportMethod', function () {
         
         noop = function() {};
         
