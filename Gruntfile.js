@@ -35,7 +35,7 @@ module.exports = function (grunt) {
             dist: {
                 src: src,
                 options: {
-                    destination: '/dist/doc'
+                    destination: 'dist/doc'
                 }
             }
         }
@@ -48,6 +48,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jsdoc');
 
     grunt.registerTask('default', ['concat', 'uglify', 'jasmine']);
-    grunt.registerTask('doc', ['jsdoc']);
+    grunt.registerTask('doc', ['concat', 'jsdoc']);
 
 };
