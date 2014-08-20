@@ -5,7 +5,10 @@
  * @module Util/Logger
  */
 Shell.include('Util/Logger', null, function() {
-    
+
+	// Logging enable status
+	var enable = true;
+	
     // Stub console for older browser
     if(typeof console === "undefined") {
         console = {};
@@ -24,12 +27,36 @@ Shell.include('Util/Logger', null, function() {
      * @param args {arguments} Method arguments
      */
     var log = function(action, args) {
-        console[action].apply(console, args);
+    	if(enable) {
+    		console[action].apply(console, args);
+    	}
     }
     
     // Public interfaces
     return {
-        
+
+    	/**
+    	 * Enable logging
+    	 * 
+    	 * @public
+    	 * @static
+    	 * @method
+    	 */
+    	enable: function() {
+    		enable = true;
+    	},
+
+    	/**
+    	 * Disable logging
+    	 * 
+    	 * @public
+    	 * @static
+    	 * @method
+    	 */
+    	disable: function() {
+    		enable = false;
+    	},
+    	
     	/**
     	 * Log an info message.
     	 * It takes a list of JS objects to output.
