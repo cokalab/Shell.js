@@ -8,7 +8,7 @@
 Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
 	
 	/**
-	 * @construct
+	 * @class
 	 * @param name {string} Registry name
 	 * @alias module:Util/Registry
 	 */
