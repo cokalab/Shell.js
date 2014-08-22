@@ -17,24 +17,6 @@ Shell.include('Test/Event/Event', ['Event/Event'], function(Event) {
             expect(e.getPayload()).toEqual('data');
         });
         
-        it('Create event with invalid channel', function () {
-        	expect(function() {
-        		new Event(null, 'action', 'data');
-        	}).toThrow();
-        });
-        
-        it('Create event with invalid action', function () {
-        	expect(function() {
-        		new Event('channel', 123, 'data');
-        	}).toThrow();
-        });
-        
-        it('Create event with invalid payload', function () {
-        	expect(function() {
-        		new Event('channel', 'action', function() {});
-        	}).toThrow();
-        });
-
     });
     
 });

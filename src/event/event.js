@@ -14,17 +14,6 @@ Shell.include('Event/Event', null, function() {
 	 */
 	var Event = function(channel, action, payload) {
 		
-		// Validate constructor parameters
-		if(typeof channel != 'string' || !channel) {
-			throw 'Invalid channel';
-		}
-		if(typeof action != 'string' || !action) {
-			throw 'Invalid action';
-		}
-		if(typeof payload == 'function') {
-			throw 'Invalid payload';
-		}
-		
 		/**
 		 * Get channel
 		 * 
