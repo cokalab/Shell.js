@@ -24,7 +24,7 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		 * @param action {string}
 		 * @param payload {?(string|number|boolean|object)}
 		 */
-		this.triggerEvent = function(channel, action, payload) {
+		this.trigger = function(channel, action, payload) {
 			if(listeners[channel] && listeners[channel][action]) {
 				var iListeners = listeners[channel][action];
 				for(var index in iListeners) {

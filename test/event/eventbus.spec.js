@@ -13,40 +13,72 @@ Shell.include('Test/Event/EventBus', ['Event/EventBus', 'Event/Event', 'Event/Li
     	
         it('Add a listener', function () {
         	var noop = function() {};
-        	EventBus.addListener('test1', 'test1', noop, this);
-        	expect(EventBus.isListener('test1', 'test1', noop, this)).toEqual(true);
+        	EventBus.addListener('channel', 'action', noop, this);
+        	expect(EventBus.isListener('channel', 'action', noop, this)).toEqual(true);
         });
 
         it('Add multiple listener', function () {
         	var noop1 = function() {};
         	var noop2 = function() {};
-        	EventBus.addListener('test1', 'test1', noop1, this);
-        	EventBus.addListener('test1', 'test2', noop1, this);
-        	EventBus.addListener('test2', 'test1', noop2, this);
-        	EventBus.addListener('test2', 'test2', noop2, this);
-        	expect(EventBus.isListener('test1', 'test1', noop1, this)).toEqual(true);
-        	expect(EventBus.isListener('test1', 'test2', noop1, this)).toEqual(true);
-        	expect(EventBus.isListener('test2', 'test1', noop2, this)).toEqual(true);
-        	expect(EventBus.isListener('test2', 'test2', noop2, this)).toEqual(true);
+        	EventBus.addListener('channel1', 'action1', noop1, this);
+        	EventBus.addListener('channel1', 'action2', noop1, this);
+        	EventBus.addListener('channel2', 'action1', noop2, this);
+        	EventBus.addListener('channel2', 'action2', noop2, this);
+        	expect(EventBus.isListener('channel1', 'action1', noop1, this)).toEqual(true);
+        	expect(EventBus.isListener('channel1', 'action2', noop1, this)).toEqual(true);
+        	expect(EventBus.isListener('channel2', 'action1', noop2, this)).toEqual(true);
+        	expect(EventBus.isListener('channel2', 'action2', noop2, this)).toEqual(true);
         });
 
         it('Remove a listener', function () {
         	var noop = function() {};
-        	EventBus.addListener('test1', 'test1', noop, this);
-        	EventBus.removeListener('test1', 'test1', noop, this);
-        	expect(EventBus.isListener('test1', 'test1', noop, this)).toEqual(false);
+        	EventBus.addListener('channel', 'action', noop, this);
+        	expect(EventBus.isListener('channel', 'action', noop, this)).toEqual(true);
+        	EventBus.removeListener('channel', 'action', noop, this);
+        	expect(EventBus.isListener('channel', 'action', noop, this)).toEqual(false);
         });
 
-        it('Remove listeners', function () {
+        it('Remove listeners (channel and action)', function () {
         	var noop1 = function() {};
         	var noop2 = function() {};
-        	EventBus.addListener('test1', 'test1', noop1, this);
-        	EventBus.addListener('test1', 'test1', noop2, this);
-        	EventBus.removeListeners('test1', 'test1');
-        	expect(EventBus.isListener('test1', 'test1', noop1, this)).toEqual(false);
-        	expect(EventBus.isListener('test1', 'test1', noop2, this)).toEqual(false);
+        	EventBus.addListener('channel', 'action', noop1, this);
+        	EventBus.addListener('channel', 'action', noop2, this);
+        	EventBus.removeListeners('channel', 'action');
+        	expect(EventBus.isListener('channel', 'action', noop1, this)).toEqual(false);
+        	expect(EventBus.isListener('channel', 'action', noop2, this)).toEqual(false);
         });
-        
+
+        it('Remove listeners (channel only)', function () {
+            var noop1 = function() {};
+            var noop2 = function() {};
+            EventBus.addListener('channel', 'action1', noop1, this);
+            EventBus.addListener('channel', 'action2', noop2, this);
+            EventBus.removeListeners('channel');
+            expect(EventBus.isListener('channel', 'action1', noop1, this)).toEqual(false);
+            expect(EventBus.isListener('channel', 'action2', noop2, this)).toEqual(false);
+        });
+
+        it('Trigger event (multiple listeners)', function () {
+            var tester = {};
+            tester.callback1 = function() {};
+            tester.callback2 = function() {};
+            spyOn(tester, 'callback1');
+            spyOn(tester, 'callback2');
+            EventBus.addListener('channel', 'action', tester.callback1, tester);
+            EventBus.addListener('channel', 'action', tester.callback2, tester);
+            EventBus.trigger('channel', 'action');
+            expect(tester.callback1).toHaveBeenCalled();
+            expect(tester.callback2).toHaveBeenCalled();
+        });
+
+        it('Reset', function () {
+            var noop = function() {};
+            EventBus.addListener('channel', 'action', noop, this);
+            expect(EventBus.isListener('channel', 'action', noop, this)).toEqual(true);
+            EventBus.reset();
+            expect(EventBus.isListener('channel', 'action', noop, this)).toEqual(false);
+        });
+
     });
     
 });
