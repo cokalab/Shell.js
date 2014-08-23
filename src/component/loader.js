@@ -1,5 +1,7 @@
 /**
  * Component loader instantiates, destroies, and manages components, actual JS objects hidden from the public.
+ * 
+ * @module Component/
  */
 Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
     'use strict';
@@ -19,7 +21,7 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
          * @param clazz {string} Component class name
          * @param constructor {function} Component constructor function.
          */
-        this.defineConstructor = function(clazz, constructor) {
+        this.define = function(clazz, constructor) {
             ConstructorRegistry.set(clazz, constructor);
             Logger.debug('Defined constructor', {clazz: clazz, constructor: constructor});
         };
@@ -60,7 +62,10 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
         };
         
         /**
-         *  
+         * Destroy a component
+         * 
+         *  @method
+         *  @param id {string} Component unique ID
          */
         this.destroy = function(id) {
             ComponentRegistry.remove(id);
