@@ -12,7 +12,7 @@ Shell.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], func
         
         it('Define constructor', function () {
             var constructor = function() {};
-            Loader.define('class', constructor);
+            Loader.setConstructor('class', constructor);
             expect(Loader.getConstructor('class')).toEqual(constructor);
         });
         
@@ -20,7 +20,7 @@ Shell.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], func
             var constructor = {};
             constructor.callback = function() {};
             spyOn(constructor, 'callback');
-            Loader.define('class', constructor.callback);
+            Loader.setConstructor('class', constructor.callback);
             var component = Loader.load('id', 'class');
             expect(constructor.callback).toHaveBeenCalled();
             expect(component).not.toBe(null);
@@ -30,7 +30,7 @@ Shell.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], func
             var constructor = {};
             constructor.callback = function() {};
             spyOn(constructor, 'callback');
-            Loader.define('class', constructor.callback);
+            Loader.setConstructor('class', constructor.callback);
             var component = Loader.load('id', 'class');
             expect(constructor.callback).toHaveBeenCalled();
             expect(component).not.toBe(null);
