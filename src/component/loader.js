@@ -2,6 +2,8 @@
  * Component loader instantiates, destroies, and manages components, actual JS objects hidden from the public.
  * 
  * @module Component/Loader
+ * @requires module:Util/Registry
+ * @requires module:Util/Logger
  */
 Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
     'use strict';

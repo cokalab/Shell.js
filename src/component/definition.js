@@ -2,6 +2,7 @@
  * Store and manage component configuration.
  * 
  * @module Component/Definition
+ * @requires module:Util/Registry
  * @requires module:Util/Logger
  */
 Shell.include('Component/Definition', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
