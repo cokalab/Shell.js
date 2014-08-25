@@ -4,10 +4,12 @@ Shell.include('Test/Util/ErrorHandler', [ 'Util/ErrorHandler', 'Util/Logger' ],
 			describe('Util/ErrorHandler', function() {
 
 				beforeEach(function() {
+		            ErrorHandler.disable();
 				});
 
 				afterEach(function() {
 					Logger.enable();
+					ErrorHandler.disable();
 				});
 
 				it('Ignore error', function() {

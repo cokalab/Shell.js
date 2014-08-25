@@ -64,6 +64,17 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
         };
         
         /**
+         * Determine if a component exists in memory
+         * 
+         * @method
+         * @param id {string}
+         * @return {boolean}
+         */
+        this.exist = function(id) {
+        	return ComponentRegistry.exist(id);
+        };
+        
+        /**
          * Destroy a component
          * 
          *  @method

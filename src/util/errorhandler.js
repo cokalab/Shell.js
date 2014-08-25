@@ -28,7 +28,7 @@ Shell.include('Util/ErrorHandler', ['Util/Logger'], function(Logger) {
 		 * @static
 		 */
 		disable: function() {
-			enable: false;
+			enable = false;
 		},
 
 		/**
@@ -46,14 +46,14 @@ Shell.include('Util/ErrorHandler', ['Util/Logger'], function(Logger) {
 		execute: function(callback, args, context, errorMsg) {
 			if(enable) {
 				try {
-					callback.apply(context, args);
+					return callback.apply(context, args);
 				}
 				catch(e) {
 					Logger.error(errorMsg || 'Enounctered error', e);
 				}
 			}
 			else {
-				callback.apply(context, args);
+				return callback.apply(context, args);
 			}
 		}
 		
