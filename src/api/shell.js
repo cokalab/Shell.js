@@ -6,7 +6,11 @@
  * @requires module:Component/Loader
  * @requires module:Util/ErrorHandler
  */
-Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Util/ErrorHandler'], function(EventBus, Loader, ErrorHandler) {
+Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, ErrorHandler, Logger) {
+
+	Logger.disable();
+	DefinitionMgr.addRequiredDefinitionField('events');
+	Logger.enable();
 	
 	/**
 	 * @class
