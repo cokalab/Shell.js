@@ -37,12 +37,12 @@ Shell.include('Api/Component', ['Component/Definition', 'Component/Loader', 'Uti
 		{
 			DefinitionMgr: DefinitionMgr,
 			Loader: Loader
-		}, 'Encountered error in Shell.define.');
+		}, 'Encountered error in "Shell.define".');
 
 	});
 
 	/**
-	 * Create a new component (debug)
+	 * Create a new component
 	 * 
 	 * @memberOf Shell
 	 * @method create
@@ -61,10 +61,27 @@ Shell.include('Api/Component', ['Component/Definition', 'Component/Loader', 'Uti
 				id = generateUniqueId();
 			}
 			Loader.load(id, clazz);
-		}, [Loader, DefinitionMgr, clazz], this, 'Encountered error in Shell.debug.getDefinition.');
+		}, [Loader, DefinitionMgr, clazz], this, 'Encountered error in "Shell.create".');
 
 	});
 
+	/**
+	 * Find components
+	 * 
+	 * @memberOf Shell
+	 * @method create
+	 * @param selector {string} Component id, class name, or context
+	 */
+	Namespace.exportMethod('find', function(selector) {
+		return ErrorHandler.execute(function(Loader, DefinitionMgr, selector) {
+			if(typeof selector != 'string' || !clazz) {
+				throw 'Invalid selector.';
+			}
+			
+		}, [Loader, DefinitionMgr, selector], this, 'Encountered error in "Shell.create".');
+
+	});
+	
 	/**
 	 * Get component definition (debug)
 	 * 
@@ -81,7 +98,7 @@ Shell.include('Api/Component', ['Component/Definition', 'Component/Loader', 'Uti
 		}, [clazz],
 		{
 			DefinitionMgr: DefinitionMgr
-		}, 'Encountered error in Shell.debug.getDefinition.');
+		}, 'Encountered error in "Shell.debug.getDefinition".');
 
 	});
 
@@ -101,7 +118,7 @@ Shell.include('Api/Component', ['Component/Definition', 'Component/Loader', 'Uti
 		}, [clazz],
 		{
 			Loader: Loader
-		}, 'Encountered error in Shell.debug.getDefinition.');
+		}, 'Encountered error in "Shell.debug.getConstructor".');
 
 	});
 	

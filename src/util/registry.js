@@ -1,6 +1,7 @@
 /**
- * Registry class
- * Base class for storing key value pair data.
+ * Internal registry for storing data. 
+ * Registry is basically a key / object pair storage.
+ * It's recommended to create a new Registry instance for different usage.
  * 
  * @module Util/Registry
  * @requires Util/Logger
@@ -23,22 +24,22 @@ Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
 		var storage = {};
 		
 		/**
-		 * Get an object from registry
+		 * Retrieve an object
 		 * 
 		 * @method
-		 * @param key {string} Key associated with the object we want to fetch.
-		 * @returns object {object} Object matching the key provided; null otherwise.
+		 * @param key {string} 
+		 * @returns object {object}
 		 */
 		this.get = function(key) {
 			return storage[key] || null;
 		};
 
 		/**
-		 * Set a key value pair
+		 * Registry an object.
 		 * 
 		 * @method
-		 * @param key {string} Key associated with the object we want to fetch.
-		 * @param object {object} Object we want to store.
+		 * @param key {string}
+		 * @param object {object}
 		 */
 		this.set = function(key, object) {
 			storage[key] = object;
@@ -46,28 +47,56 @@ Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
 		};
 
 		/**
-		 * Remove a key value pair
+		 * Remove an object
 		 * 
 		 * @method
-		 * @param key {string} Key associated with the object we want to remove.
+		 * @param key {string}
 		 */		
 		this.remove = function(key) {
-			storage [key] = null;
+			delete storage[key];
 			Logger.debug('Removed ' + key + ' from registry ' + name);
 		};
 
 		/**
-		 * Determine if an object exists in the storage for the key provided
+		 * Determine if an object is registered or not.
 		 * 
 		 * @method
-		 * @param key {string} Key associated with the object we want to remove.
-		 * @returns {boolean} True if object exists; false otherwise.
+		 * @param key {string}
+		 * @returns {boolean}
 		 */		
 		this.exist = function(key) {
 			if(typeof storage[key] == 'undefined' || storage[key] === null) {
 				return false;
 			}
 			return true;
+		};
+		
+		/**
+		 * Reset registry
+		 * 
+		 * @method
+		 */
+		this.reset = function() {
+			for(var key in storage) {
+				this.remove(key);
+			}
+		};
+		
+		/**
+		 * Monitor memory usage.
+		 * Return the total number registered objects.
+		 * 
+		 * @method
+		 * @return stats {object} 
+		 */
+		this.monitor = function() {
+			var total = 0;
+			for(var key in storage) {
+				total ++;
+			}
+			return {
+				total: total 
+			};
 		}
 		
 	};

@@ -53,7 +53,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 				for(var x=0; x<id.length; x++) {
 					EventBus.trigger(id[x], action, payload);
 				}
-			}, [EventBus, id, action, payload], this, 'Encountered error in "Api/Shell.trigger"')
+			}, [EventBus, id, action, payload], this, 'Encountered error in "Api/Shell.trigger".')
 			
 		};
 		
@@ -79,7 +79,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 				for(var x=0; x<id.length; x++) {
 					EventBus.addListener(id[x], action, callback, context || Loader.load(id) );
 				}
-			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Api/Shell.on"')
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Api/Shell.on".')
 			
 		};
 
@@ -107,7 +107,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 				for(var x=0; x<id.length; x++) {
 					EventBus.removeListener(id[x], action, callback, context);
 				}
-			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Api/Shell.off"')
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Api/Shell.off".')
 			
 		};
 		
@@ -123,7 +123,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 					Loader.destroy(id[x]);
 					EventBus.removeListener(id[x]);
 				}
-			}, [EventBus, Loader, id], this, 'Encountered error in "Api/Shell.destroy"')
+			}, [EventBus, Loader, id], this, 'Encountered error in "Api/Shell.destroy".')
 			
 		};
 	}
