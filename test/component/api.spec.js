@@ -1,6 +1,6 @@
-Shell.include('Test/Api/Component', ['Api/Component', 'Util/Logger', 'Util/ErrorHandler'], function(Api, Logger, ErrorHandler) {
+Shell.include('Test/Component/Api', ['Component/Api', 'Util/Logger', 'Util/ErrorHandler'], function(Api, Logger, ErrorHandler) {
 
-    describe('Api/Component', function () {
+    describe('Component/Api', function () {
 
         beforeEach(function() {
             Logger.disable();

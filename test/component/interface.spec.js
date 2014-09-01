@@ -1,6 +1,6 @@
-Shell.include('Test/Api/Shell', ['Api/Shell', 'Event/EventBus', 'Component/Loader', 'Util/Logger'], function(ShellApi, EventBus, Loader, Logger) {
+Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBus', 'Component/Loader', 'Util/Logger'], function(Interface, EventBus, Loader, Logger) {
 
-    describe('Api/Shell', function () {
+    describe('Component/Interface', function () {
 
         beforeEach(function() {
             Logger.disable();
@@ -11,16 +11,16 @@ Shell.include('Test/Api/Shell', ['Api/Shell', 'Event/EventBus', 'Component/Loade
         });
 
         it('Construct', function () {
-        	var shell = new ShellApi('id');
+        	var shell = new Interface('id');
         	expect(shell.getComponents()).toEqual(['id']);
-        	var shell = new ShellApi(['1', '2', '3']);
+        	var shell = new Interface(['1', '2', '3']);
         	expect(shell.getComponents()).toEqual(['1', '2', '3']);
         });
 
         it('Construct', function () {
-        	var shell = new ShellApi('id');
+        	var shell = new Interface('id');
         	expect(shell.getComponents()).toEqual(['id']);
-        	var shell = new ShellApi(['1', '2', '3']);
+        	var shell = new Interface(['1', '2', '3']);
         	expect(shell.getComponents()).toEqual(['1', '2', '3']);
         });
 
@@ -30,7 +30,7 @@ Shell.include('Test/Api/Shell', ['Api/Shell', 'Event/EventBus', 'Component/Loade
         		flag = true;
         	}
         	// Add listener
-        	var shell = new ShellApi('id');
+        	var shell = new Interface('id');
         	shell.on('act', foo, this);
         	// Trigger
         	shell.trigger('act');
@@ -47,7 +47,7 @@ Shell.include('Test/Api/Shell', ['Api/Shell', 'Event/EventBus', 'Component/Loade
         	var foo = function() {
         		counter ++;
         	}
-        	var shell = new ShellApi('id');
+        	var shell = new Interface('id');
         	shell.on('act', foo, this);
         	shell.on('act', foo, this);
         	shell.trigger('act');
@@ -59,7 +59,7 @@ Shell.include('Test/Api/Shell', ['Api/Shell', 'Event/EventBus', 'Component/Loade
         	var foo = function() {
         		counter ++;
         	}
-        	var shell = new ShellApi('id');
+        	var shell = new Interface('id');
         	shell.on('act', function() {}, this);
         	shell.on('act', function() {}, this);
         	shell.off('act')
@@ -67,7 +67,7 @@ Shell.include('Test/Api/Shell', ['Api/Shell', 'Event/EventBus', 'Component/Loade
         });
 
         it('Destroy', function() {
-        	var shell = new ShellApi('id');
+        	var shell = new Interface('id');
         	shell.destroy();
         	expect(Loader.exist('id')).toEqual(false);
         });

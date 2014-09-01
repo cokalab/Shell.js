@@ -3,23 +3,27 @@
  * If error handler is disabled, JS exceptions will not be caught.
  * 
  * @module Util/ErrorHandler
+ * @requires module:Util/Namespace
  * @requires module:Util/Logger
  */
-Shell.include('Util/ErrorHandler', ['Util/Logger'], function(Logger) {
+Shell.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(Namespace, Logger) {
 	
-	var enable = false;
-	
-	return {
-		
+	/**
+	 * Error handler implementation (Singleton).
+	 */
+	var ErrorHandler = new function() {
+
+		var enable = false;
+			
 		/**
 		 * Enable error handling
 		 * 
 		 * @method
 		 * @static
 		 */
-		enable: function() {
+		this.enable = function() {
 			enable = true;
-		},
+		};
 
 		/**
 		 * Disable error handling
@@ -27,9 +31,9 @@ Shell.include('Util/ErrorHandler', ['Util/Logger'], function(Logger) {
 		 * @method
 		 * @static
 		 */
-		disable: function() {
+		this.disable = function() {
 			enable = false;
-		},
+		};
 
 		/**
 		 * Execute a method with context and arguments provided. 
@@ -43,7 +47,7 @@ Shell.include('Util/ErrorHandler', ['Util/Logger'], function(Logger) {
 		 * @param contest {?object} Callback method's context
 		 * @param errorMsg {?string} Optional error message to be displayed when something goes wrong while error handling is on.
 		 */
-		execute: function(callback, args, context, errorMsg) {
+		this.execute = function(callback, args, context, errorMsg) {
 			if(enable) {
 				try {
 					return callback.apply(context, args);
@@ -55,8 +59,21 @@ Shell.include('Util/ErrorHandler', ['Util/Logger'], function(Logger) {
 			else {
 				return callback.apply(context, args);
 			}
-		}
+		};
 		
-	}
+	};
+	
+	/**
+	 * Enable error handling.
+	 * All errors are caught internally and logged.
+	 * 
+	 * @memberOf Shell
+	 * @method enableErrorHandler
+	 */
+	Namespace.exportMethod('debug.enableErrorHandler', function() {
+		ErrorHandler.enable();
+	});
+	
+	return ErrorHandler;
 	
 });

@@ -1,12 +1,12 @@
 /**
- * Maintain one or multiple component internally and provide interfaces including trigger, on, off, and destroy to interact with components.
+ * Component interface is basically a wrapper around the object itself providing methods to communicate with other components over the event bus.
  * 
- * @module Api/Shell
+ * @module Component/Interface
  * @requires module:Event/EventBus
  * @requires module:Component/Loader
  * @requires module:Util/ErrorHandler
  */
-Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, ErrorHandler, Logger) {
+Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, ErrorHandler, Logger) {
 
 	Logger.disable();
 	DefinitionMgr.addRequiredDefinitionField('events');
@@ -15,7 +15,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 	/**
 	 * @class
 	 * @param id {string|string[]} ID of one or multiple components
-	 * @alias module:Api/Shell
+	 * @alias module:Component/Interface
 	 */
 	var Shell = function(id) {
 		
@@ -53,7 +53,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 				for(var x=0; x<id.length; x++) {
 					EventBus.trigger(id[x], action, payload);
 				}
-			}, [EventBus, id, action, payload], this, 'Encountered error in "Api/Shell.trigger".')
+			}, [EventBus, id, action, payload], this, 'Encountered error in "Component/Interface.trigger".')
 			
 		};
 		
@@ -79,7 +79,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 				for(var x=0; x<id.length; x++) {
 					EventBus.addListener(id[x], action, callback, context || Loader.load(id) );
 				}
-			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Api/Shell.on".')
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
 			
 		};
 
@@ -107,7 +107,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 				for(var x=0; x<id.length; x++) {
 					EventBus.removeListener(id[x], action, callback, context);
 				}
-			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Api/Shell.off".')
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.off".')
 			
 		};
 		
@@ -123,7 +123,7 @@ Shell.include('Api/Shell', ['Event/EventBus', 'Component/Loader', 'Component/Def
 					Loader.destroy(id[x]);
 					EventBus.removeListener(id[x]);
 				}
-			}, [EventBus, Loader, id], this, 'Encountered error in "Api/Shell.destroy".')
+			}, [EventBus, Loader, id], this, 'Encountered error in "Component/Interface.destroy".')
 			
 		};
 	}

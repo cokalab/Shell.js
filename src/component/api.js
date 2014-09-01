@@ -1,15 +1,4 @@
-Shell.include('Api/Component', ['Component/Definition', 'Component/Loader', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger'], function(DefinitionMgr, Loader, Namespace, ErrorHandler, Logger) {
-
-	var counter = 0;
-	
-	/**
-	 * Private method to generate unique component ID
-	 * @return id {string}
-	 */
-	var generateUniqueId = function() {
-		counter ++;
-		return 'Shell-' + counter;
-	};
+Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger'], function(IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger) {
 	
 	/**
 	 * Define a component
@@ -58,7 +47,7 @@ Shell.include('Api/Component', ['Component/Definition', 'Component/Loader', 'Uti
 				id = clazz;
 			}
 			else {
-				id = generateUniqueId();
+				id = IdGenerator.generate();
 			}
 			Loader.load(id, clazz);
 		}, [Loader, DefinitionMgr, clazz], this, 'Encountered error in "Shell.create".');
