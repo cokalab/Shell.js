@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 
-    var src = ['src/shell.js', 'src/shell.include.js', 'src/**/*.js'];
+    var src = ['src/shell.js', 'src/version.js', 'src/**/*.js'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),

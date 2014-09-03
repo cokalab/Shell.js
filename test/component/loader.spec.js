@@ -21,9 +21,8 @@ Shell.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], func
             constructor.callback = function() {};
             spyOn(constructor, 'callback');
             Loader.setConstructor('class', constructor.callback);
-            var component = Loader.load('id', 'class');
-            expect(constructor.callback).toHaveBeenCalled();
-            expect(component).not.toBe(null);
+            var component = Loader.load('id1', 'class');
+            expect(component instanceof constructor.callback).toEqual(true);
         });
 
         it('Remove component', function () {
@@ -31,9 +30,10 @@ Shell.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], func
             constructor.callback = function() {};
             spyOn(constructor, 'callback');
             Loader.setConstructor('class', constructor.callback);
-            var component = Loader.load('id', 'class');
-            expect(constructor.callback).toHaveBeenCalled();
-            expect(component).not.toBe(null);
+            var component = Loader.load('id2', 'class');
+            expect(component instanceof constructor.callback).toEqual(true);
+            Loader.destroy('id2');
+            expect(Loader.exist('id2')).toEqual(false);
         });
 
     });

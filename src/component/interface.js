@@ -4,9 +4,12 @@
  * @module Component/Interface
  * @requires module:Event/EventBus
  * @requires module:Component/Loader
+ * @requires module:Component/Definition
+ * @requires module:Component/Lookup
  * @requires module:Util/ErrorHandler
+ * @requires module:Util/Logger
  */
-Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, ErrorHandler, Logger) {
+Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, Lookup, ErrorHandler, Logger) {
 
 	Logger.disable();
 	DefinitionMgr.addRequiredDefinitionField('events');
@@ -118,12 +121,13 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 */
 		this.destroy = function() {
 
-			ErrorHandler.execute(function(EventBus, Loader, id) {
+			ErrorHandler.execute(function(EventBus, Loader, Lookup, id) {
 				for(var x=0; x<id.length; x++) {
 					Loader.destroy(id[x]);
+					Lookup.remove(id);
 					EventBus.removeListener(id[x]);
 				}
-			}, [EventBus, Loader, id], this, 'Encountered error in "Component/Interface.destroy".')
+			}, [EventBus, Loader, Lookup, id], this, 'Encountered error in "Component/Interface.destroy".')
 			
 		};
 	}

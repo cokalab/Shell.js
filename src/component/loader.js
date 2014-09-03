@@ -57,7 +57,8 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
             if(!ConstructorRegistry.exist(clazz)) {
                 throw 'Constructor is not defined yet for ' + clazz;
             }
-            var component = new  ConstructorRegistry.get(clazz) ();
+            var constructor = ConstructorRegistry.get(clazz);
+            var component = new constructor();
             Logger.debug('Instantiated component', {id: id, clazz: clazz});
             ComponentRegistry.set(id, component);
             return component;
