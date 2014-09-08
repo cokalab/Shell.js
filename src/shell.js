@@ -2,6 +2,10 @@
  * @global
  * @namespace Shell
  */
+/**
+ * @namespace Shell.debug
+ * @memberof Shell
+ */
 var Shell = {};
 
 /**

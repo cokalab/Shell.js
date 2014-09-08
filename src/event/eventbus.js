@@ -1,9 +1,10 @@
 /**
- * Event bus, providing publisher subscription style communication.
+ * Event bus provides publisher subscription style communication.
  * 
  * @module Event/EventBus
  * @requires module:Event/Event
  * @requires module:Event/Listener
+ * @requires module:Util/Logger
  */
 Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger'], function(Event, Listener, Logger) {
 	
@@ -17,7 +18,7 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		
 		/**
 		 * Trigger an event.
-		 * All listeners registered to this event will be triggered in sequence.
+		 * All listeners registered to this event are executed in sequence.
 		 * 
 		 * @method
 		 * @param channel {string}
@@ -35,7 +36,7 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		};
 		
 		/**
-		 * Add a new listener
+		 * Add a new listener.
 		 * 
 		 * @method
 		 * @param channel {string}
@@ -51,7 +52,7 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		};
 
 		/**
-		 * Remove a listener
+		 * Remove a listener.
 		 * 
 		 * @method
 		 * @param channel {string}
@@ -72,13 +73,13 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		};
 
 		/**
-		 * Remove listeners
+		 * Remove listeners.
 		 * 
 		 * @method
 		 * @param channel {string}
 		 * @param action {?string}
 		 */
-		this.removeListeners = function(channel, action, callback, context) {
+		this.removeListeners = function(channel, action) {
 			if(action) {
 				if(listeners[channel] && listeners[channel][action]) {
 					listeners[channel][action] = null;
@@ -87,11 +88,11 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 			else {
 				listeners[channel] = {};
 			}
-			Logger.debug('Removed listener', {channel: channel, action: action, callback: callback, context: context});
+			Logger.debug('Removed listener', {channel: channel, action: action});
 		};
 		
 		/**
-		 * Check if an listener exists
+		 * Determine if an listener exists.
 		 * 
 		 * @method
 		 * @param channel {string}

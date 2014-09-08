@@ -67,11 +67,22 @@ Shell.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(N
 	 * Enable error handling.
 	 * All errors are caught internally and logged.
 	 * 
-	 * @memberOf Shell
+	 * @memberOf Shell.debug
 	 * @method enableErrorHandler
 	 */
 	Namespace.exportMethod('debug.enableErrorHandler', function() {
 		ErrorHandler.enable();
+	});
+	
+	/**
+	 * Disable error handling.
+	 * All errors are thrown to the browser console directly.
+	 * 
+	 * @memberOf Shell.debug
+	 * @method disableErrorHandler
+	 */
+	Namespace.exportMethod('debug.disableErrorHandler', function() {
+		ErrorHandler.disable();
 	});
 	
 	return ErrorHandler;

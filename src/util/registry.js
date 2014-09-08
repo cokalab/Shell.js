@@ -1,6 +1,6 @@
 /**
  * Internal registry for storing data. 
- * Registry is basically a key / object pair storage.
+ * It's basically a key / object pair storage.
  * It's recommended to create a new Registry instance for different usage.
  * 
  * @module Util/Registry

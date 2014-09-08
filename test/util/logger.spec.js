@@ -1,7 +1,15 @@
 Shell.include('Test/Util/Logger', ['Util/Logger'], function(Logger) {
 
     describe('Util.Logger', function () {
-        
+
+    	beforeEach(function() {
+    		Logger.setLevel('debug');
+    	});
+
+    	afterEach(function() {
+    		Logger.setLevel('error');
+    	});
+    	
         it('Log info', function () {
             spyOn(console, 'info');
             Logger.info('test');

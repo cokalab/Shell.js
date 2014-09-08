@@ -71,7 +71,7 @@ Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Log
 		remove: function(id) {
 			var clazz = ReversedLookupRegistry.get(id);
 			if(!clazz) {
-				throw 'Component cannot be removed from lookup registry. Class not found';
+				return;
 			}
 			ReversedLookupRegistry.remove(id);
 			LookupRegistry.remove(id);

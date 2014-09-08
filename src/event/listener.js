@@ -1,5 +1,5 @@
 /**
- * Listener class
+ * Listener class, containing a callback method and a context.
  * 
  * @module Event/Listener
  * @requires module:Event/Event
@@ -15,11 +15,11 @@ Shell.include('Event/Listener', ['Event/Event'], function() {
 	var Listener = function(callback, context) {
 
 		/**
-		 * Compare callback and context belong to the listener to another
-		 * callback and context combination. Return true if they are the same
+		 * Compare current listener's callback and context to another callback and context combination. 
+		 * Return true if they are the same.
 		 * 
 		 * @method
-		 * @param iCallback {function} Callback function to compare
+		 * @param iCallback {function} Callback method to compare
 		 * @param iContext {{string|number|boolean|object}} Context to compare
 		 * @return {boolean} True if both callback and context match; false otherwise.
 		 */
@@ -31,8 +31,7 @@ Shell.include('Event/Listener', ['Event/Event'], function() {
 		};
 
 		/**
-		 * Execute callback under the context provided in the constructor. Data
-		 * is directly passed to the callback function.
+		 * Execute callback method under current listener's context.
 		 * 
 		 * @method
 		 * @param event {module:Event/Event}

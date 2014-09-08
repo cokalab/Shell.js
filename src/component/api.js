@@ -112,6 +112,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 	 * @memberOf Shell.debug
 	 * @method getDefinition
 	 * @param clazz {string} Component class name
+	 * @return definition {object}
 	 */
 	Namespace.exportMethod('debug.getDefinition', function(clazz) {
 		return ErrorHandler.execute(function(clazz) {
@@ -130,8 +131,9 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 	 * Get component constructor (debug)
 	 * 
 	 * @memberOf Shell.debug
-	 * @method getDefinition
+	 * @method getConstructor
 	 * @param clazz {string} Component class name
+	 * @return constructor {object}
 	 */
 	Namespace.exportMethod('debug.getConstructor', function(clazz) {
 		return ErrorHandler.execute(function(clazz) {
