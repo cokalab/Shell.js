@@ -1,4 +1,4 @@
-Shell.include('Test/Component/Api', ['Component/Api', 'Util/Logger', 'Util/ErrorHandler'], function(Api, Logger, ErrorHandler) {
+Shell.include('Test/Component/Api', ['Component/Api', 'Component/Loader', 'Component/Lookup', 'Util/Logger', 'Util/ErrorHandler'], function(Api, Loader, Lookup, Logger, ErrorHandler) {
 
     describe('Component/Api', function () {
 
@@ -19,9 +19,9 @@ Shell.include('Test/Component/Api', ['Component/Api', 'Util/Logger', 'Util/Error
     			}
     		};
         	var constructor = function() {};
-        	Shell.define('class', definition, constructor);
-        	expect(Shell.debug.getDefinition('class')).toEqual(definition);
-        	expect(Shell.debug.getConstructor('class')).toEqual(constructor);
+        	Shell.define('class-1', definition, constructor);
+        	expect(Shell.debug.getDefinition('class-1')).toEqual(definition);
+        	expect(Shell.debug.getConstructor('class-1')).toEqual(constructor);
         });
 
         it('Create', function () {
@@ -30,11 +30,19 @@ Shell.include('Test/Component/Api', ['Component/Api', 'Util/Logger', 'Util/Error
     				'show': {
     					payload: null
     				}
-    			}
+    			},
+    			singleton: true
     		};
-        	var constructor = function() {};
-        	Shell.define('class', definition, constructor);
-        	var shell = Shell.create('class');
+        	var constructor = function() {
+        		this.ids = this.Shell().getComponents();
+        	};
+        	Shell.define('class-2', definition, constructor);
+        	var shell = Shell.create('class-2');
+        	expect(Loader.exist('class-2')).toEqual(true);
+        	expect(Lookup.lookup('class-2')).toEqual(['class-2']);
+        	var component = Loader.load('class-2');
+        	expect(component.ids).toEqual(['class-2']);
+        	expect(typeof component.Shell).toEqual('string');
         });
         
     });

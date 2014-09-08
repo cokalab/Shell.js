@@ -30,7 +30,9 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			if(typeof constructor != 'function') {
 				throw 'Invalid constructor function.';
 			}
-			constructor.prototype.Shell = ComponentInterface;
+			constructor.prototype.Shell = function() {
+				return ComponentInterface;
+			};
 			DefinitionMgr.set(clazz, definition);
 			Loader.setConstructor(clazz, constructor);
 		}, [clazz, definition, constructor],
@@ -68,7 +70,6 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			// Register lookup data
 			Lookup.register(id, clazz);
 			// Overwrite prototype
-			console.log(component);
 			component.Shell = Shell.version;
 			// Pop the last interface from the queue after it's done and load the one before.
 			ComponentInterfaceQueue.pop();
