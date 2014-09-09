@@ -35,6 +35,23 @@ Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
 		};
 
 		/**
+		 * Retrieve the key assigned to an object.
+		 * If no object is found, null is returned.
+		 * 
+		 * @method
+		 * @param object {object}
+		 * @return key {string}
+		 */
+		this.getKey = function(object) {
+			for(var key in storage) {
+				if(storage[key] === object) {
+					return key;
+				}
+			}
+			return null;
+		};
+		
+		/**
 		 * Registry an object.
 		 * 
 		 * @method

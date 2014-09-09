@@ -92,7 +92,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 	 */
 	Namespace.exportMethod('find', function(selector) {
 		return ErrorHandler.execute(function(Loader, DefinitionMgr, selector) {
-			if( (typeof selector != 'string' && typeof selector != 'object') || !clazz) {
+			if( (typeof selector != 'string' && typeof selector != 'object') || !selector) {
 				throw 'Invalid selector.';
 			}
 			if (typeof selector == 'string') {
@@ -101,8 +101,16 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 				return shell;
 			}
 			else if(typeof selector == 'object') {
-				
+				if(typeof selector.Shell == 'function') {
+					return selector.Shell();
+				}
+				else {
+					var ids = Loader.lookup(selector);
+					var shell = new Interface(ids);
+					return shell;
+				}
 			}
+			return new Interface([]);
 		}, [Loader, DefinitionMgr, selector], this, 'Encountered error in "Shell.create".');
 
 	});

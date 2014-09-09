@@ -44,6 +44,29 @@ Shell.include('Test/Component/Api', ['Component/Api', 'Component/Loader', 'Compo
         	expect(component.ids).toEqual(['class-2']);
         	expect(typeof component.Shell).toEqual('string');
         });
+
+        it('Find', function () {
+        	var definition = {
+    			events: {
+    				'show': {
+    					payload: null
+    				}
+    			},
+    			singleton: true
+    		};
+        	var constructor = function() {
+            	var shell = Shell.find(this);
+            	expect(shell.getComponents()).toEqual(['class-3']);
+        	};
+        	Shell.define('class-3', definition, constructor);
+        	Shell.create('class-3');
+        	var shell = Shell.find('class-3');
+        	expect(shell.getComponents()).toEqual(['class-3']);
+        	var component = Loader.load('class-3');
+        	shell = Shell.find(component);
+        	console.log(shell);
+        	expect(shell.getComponents()).toEqual(['class-3']);
+        });
         
     });
     

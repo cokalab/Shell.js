@@ -65,6 +65,17 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
         };
         
         /**
+         * Look up a component's ID if component provided is already loaded
+         * 
+         *  @method
+         *  @param component {object}
+         *  @return id {string}
+         */
+        this.lookup = function(component) {
+        	return ComponentRegistry.getKey(component);
+        };
+        
+        /**
          * Determine if a component exists in memory
          * 
          * @method

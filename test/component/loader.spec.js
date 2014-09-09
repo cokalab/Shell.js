@@ -36,6 +36,14 @@ Shell.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], func
             expect(Loader.exist('id2')).toEqual(false);
         });
 
+        it('Lookup', function () {
+            var constructor = {};
+            constructor.callback = function() {};
+            Loader.setConstructor('class', constructor.callback);
+            var component = Loader.load('id2', 'class');
+            expect(Loader.lookup(component)).toEqual('id2');
+        });
+
     });
     
 });
