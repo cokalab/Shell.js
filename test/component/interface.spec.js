@@ -1,4 +1,4 @@
-Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBus', 'Component/Loader', 'Util/Logger'], function(Interface, EventBus, Loader, Logger) {
+Sheru.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBus', 'Component/Loader', 'Util/Logger'], function(Interface, EventBus, Loader, Logger) {
 
     describe('Component/Interface', function () {
 

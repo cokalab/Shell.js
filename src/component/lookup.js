@@ -4,7 +4,7 @@
  * @module Component/Lookup
  * @requires module:Util/Logger
  */
-Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Logger, Registry) {
+Sheru.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Logger, Registry) {
 	
 	var LookupRegistry = new Registry('Component/Lookup');
 	var ReversedLookupRegistry = new Registry('Component/Lookup/Reversed');

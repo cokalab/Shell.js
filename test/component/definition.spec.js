@@ -1,4 +1,4 @@
-Shell.include('Test/Component/Definition', ['Component/Definition', 'Util/Logger'], function(DefinitionMgr, Logger) {
+Sheru.include('Test/Component/Definition', ['Component/Definition', 'Util/Logger'], function(DefinitionMgr, Logger) {
 
     describe('Component/Definition', function () {
 

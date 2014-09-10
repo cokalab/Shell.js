@@ -6,7 +6,7 @@
  * @requires module:Event/Listener
  * @requires module:Util/Logger
  */
-Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger'], function(Event, Listener, Logger) {
+Sheru.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger'], function(Event, Listener, Logger) {
 	
 	/**
 	 * Event bus implementation (singleton)

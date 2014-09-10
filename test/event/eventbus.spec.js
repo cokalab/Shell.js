@@ -1,4 +1,4 @@
-Shell.include('Test/Event/EventBus', ['Event/EventBus', 'Event/Event', 'Event/Listener', 'Util/Logger'], function(EventBus, Event, Listener, Logger) {
+Sheru.include('Test/Event/EventBus', ['Event/EventBus', 'Event/Event', 'Event/Listener', 'Util/Logger'], function(EventBus, Event, Listener, Logger) {
 
     describe('Event.EventBus', function () {
 

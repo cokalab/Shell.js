@@ -1,4 +1,4 @@
-Shell.include('Test/Util/Logger', ['Util/Logger'], function(Logger) {
+Sheru.include('Test/Util/Logger', ['Util/Logger'], function(Logger) {
 
     describe('Util.Logger', function () {
 

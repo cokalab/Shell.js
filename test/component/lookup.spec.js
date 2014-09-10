@@ -1,4 +1,4 @@
-Shell.include('Test/Component/Lookup', ['Component/Lookup', 'Util/Logger'], function(Lookup, Logger) {
+Sheru.include('Test/Component/Lookup', ['Component/Lookup', 'Util/Logger'], function(Lookup, Logger) {
 
     describe('Component/Lookup', function () {
 

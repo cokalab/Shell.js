@@ -1,4 +1,4 @@
-Shell.include('Test/Util/Registry', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
+Sheru.include('Test/Util/Registry', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
 
     describe('Util.Registry', function () {
         

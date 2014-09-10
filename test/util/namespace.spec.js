@@ -1,4 +1,4 @@
-Shell.include('Test/Util/Namespace', ['Util/Namespace'], function(Namespace) {
+Sheru.include('Test/Util/Namespace', ['Util/Namespace'], function(Namespace) {
 
     describe('Util/Namespace.exportMethod', function () {
         
@@ -6,17 +6,17 @@ Shell.include('Test/Util/Namespace', ['Util/Namespace'], function(Namespace) {
         
         it('One level namespace', function () {
             Namespace.exportMethod('level1', noop);
-            expect(Shell.level1).toEqual(noop);
+            expect(Sheru.level1).toEqual(noop);
         });
         
         it('Two level namespace', function () {
             Namespace.exportMethod('levelA.levelB', noop);
-            expect(Shell.levelA.levelB).toEqual(noop);
+            expect(Sheru.levelA.levelB).toEqual(noop);
         });
 
         it('Undefined namespace', function () {
             Namespace.exportMethod('levelOne', noop);
-            expect(Shell.levelOne.levelTwo).not.toBeDefined(); 
+            expect(Sheru.levelOne.levelTwo).not.toBeDefined(); 
         });
 
         it('Invalid namespace', function () {

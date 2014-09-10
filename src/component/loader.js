@@ -5,7 +5,7 @@
  * @requires module:Util/Registry
  * @requires module:Util/Logger
  */
-Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
+Sheru.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
     'use strict';
     
     var Loader = new function() {

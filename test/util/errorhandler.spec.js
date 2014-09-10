@@ -1,4 +1,4 @@
-Shell.include('Test/Util/ErrorHandler', [ 'Util/ErrorHandler', 'Util/Logger' ],
+Sheru.include('Test/Util/ErrorHandler', [ 'Util/ErrorHandler', 'Util/Logger' ],
 		function(ErrorHandler, Logger) {
 
 			describe('Util/ErrorHandler', function() {

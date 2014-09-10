@@ -6,7 +6,7 @@
  * @module Util/Registry
  * @requires Util/Logger
  */
-Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
+Sheru.include('Util/Registry', ['Util/Logger'], function(Logger) {
 	
 	/**
 	 * @class

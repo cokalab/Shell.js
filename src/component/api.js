@@ -1,19 +1,19 @@
-Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger'], function(IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger) {
+Sheru.include('Component/Api', ['Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger'], function(IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger) {
 	"use strict"
 	
 	// Component interface.
-	// This is attached to all constructor's "Shell" prototype so that interface can be accessed while component is in the process of instantiation.
+	// This is attached to all constructor's "Sheru" prototype so that interface can be accessed while component is in the process of instantiation.
 	var ComponentInterface = null;
 	
 	// Interface queue
 	// New interface is pushed to the queue when a component is instantiated and poped after component is created.
-	// This way "Shell" prototype is always set to the latest interface.
+	// This way "Sheru" prototype is always set to the latest interface.
 	var ComponentInterfaceQueue = [];
 	
 	/**
 	 * Define a component
 	 * 
-	 * @memberOf Shell
+	 * @memberOf Sheru
 	 * @method define
 	 * @param clazz {string} Component class name
 	 * @param definition {object} Component definition
@@ -30,7 +30,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			if(typeof constructor != 'function') {
 				throw 'Invalid constructor function.';
 			}
-			constructor.prototype.Shell = function() {
+			constructor.prototype.Sheru = function() {
 				return ComponentInterface;
 			};
 			DefinitionMgr.set(clazz, definition);
@@ -39,14 +39,14 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 		{
 			DefinitionMgr: DefinitionMgr,
 			Loader: Loader
-		}, 'Encountered error in "Shell.define".');
+		}, 'Encountered error in "Sheru.define".');
 
 	});
 
 	/**
 	 * Create a new component
 	 * 
-	 * @memberOf Shell
+	 * @memberOf Sheru
 	 * @method create
 	 * @param clazz {string} Component class name
 	 */
@@ -70,7 +70,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			// Register lookup data
 			Lookup.register(id, clazz);
 			// Overwrite prototype
-			component.Shell = Shell.version;
+			component.Sheru = Sheru.version;
 			// Pop the last interface from the queue after it's done and load the one before.
 			ComponentInterfaceQueue.pop();
 			if(ComponentInterfaceQueue.length > 0) {
@@ -79,14 +79,14 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 		}, [clazz], {
 			DefinitionMgr: DefinitionMgr,
 			Loader: Loader
-		}, 'Encountered error in "Shell.create".');
+		}, 'Encountered error in "Sheru.create".');
 
 	});
 
 	/**
 	 * Find components
 	 * 
-	 * @memberOf Shell
+	 * @memberOf Sheru
 	 * @method create
 	 * @param selector {string} Component id, class name, or context
 	 */
@@ -101,8 +101,8 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 				return shell;
 			}
 			else if(typeof selector == 'object') {
-				if(typeof selector.Shell == 'function') {
-					return selector.Shell();
+				if(typeof selector.Sheru == 'function') {
+					return selector.Sheru();
 				}
 				else {
 					var ids = Loader.lookup(selector);
@@ -111,14 +111,14 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 				}
 			}
 			return new Interface([]);
-		}, [Loader, DefinitionMgr, selector], this, 'Encountered error in "Shell.create".');
+		}, [Loader, DefinitionMgr, selector], this, 'Encountered error in "Sheru.create".');
 
 	});
 	
 	/**
 	 * Get component definition (debug)
 	 * 
-	 * @memberOf Shell.debug
+	 * @memberOf Sheru.debug
 	 * @method getDefinition
 	 * @param clazz {string} Component class name
 	 * @return definition {object}
@@ -132,14 +132,14 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 		}, [clazz],
 		{
 			DefinitionMgr: DefinitionMgr
-		}, 'Encountered error in "Shell.debug.getDefinition".');
+		}, 'Encountered error in "Sheru.debug.getDefinition".');
 
 	});
 
 	/**
 	 * Get component constructor (debug)
 	 * 
-	 * @memberOf Shell.debug
+	 * @memberOf Sheru.debug
 	 * @method getConstructor
 	 * @param clazz {string} Component class name
 	 * @return constructor {object}
@@ -153,7 +153,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 		}, [clazz],
 		{
 			Loader: Loader
-		}, 'Encountered error in "Shell.debug.getConstructor".');
+		}, 'Encountered error in "Sheru.debug.getConstructor".');
 
 	});
 	

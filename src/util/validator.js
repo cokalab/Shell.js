@@ -4,7 +4,7 @@
  *
  * @module Util/Validator
  */
-Shell.include('Util/Validator', null, function () {
+Sheru.include('Util/Validator', null, function () {
 
 	var structureMatches = function (structure, data) {
 		matches = true;
@@ -32,7 +32,7 @@ Shell.include('Util/Validator', null, function () {
 		/**
 		 * Compares the data passed with the expected data structure and type
 		 * If an existing method already exists, exception is thrown
-		 * Ex: method exports under "execute" becomes "Shell.execute"
+		 * Ex: method exports under "execute" becomes "Sheru.execute"
 		 *
 		 * @public
 		 * @static
