@@ -4,7 +4,7 @@
  * @module Event/Listener
  * @requires module:Event/Event
  */
-Sheru.include('Event/Listener', ['Event/Event'], function() {
+Shell.include('Event/Listener', ['Event/Event'], function() {
 
 	/**
 	 * @class

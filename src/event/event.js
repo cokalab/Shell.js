@@ -3,7 +3,7 @@
  * 
  * @module Event/Event
  */ 
-Sheru.include('Event/Event', null, function() {
+Shell.include('Event/Event', null, function() {
 
 	/**
 	 * @class

@@ -4,7 +4,7 @@
  * 
  * @module Util/Logger
  */
-Sheru.include('Util/Logger', ['Util/Namespace'], function(Namespace) {
+Shell.include('Util/Logger', ['Util/Namespace'], function(Namespace) {
 
 	var Logger = new function() {
 		
@@ -135,7 +135,7 @@ Sheru.include('Util/Logger', ['Util/Namespace'], function(Namespace) {
 	/**
 	 * Set logging level
 	 * 
-	 * @memberOf Sheru.debug
+	 * @memberOf Shell.debug
 	 * @method setLoggingLevel
 	 * @param level {string} "info", "debug", "warn", or "error"
 	 */

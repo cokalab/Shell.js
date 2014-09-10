@@ -5,7 +5,7 @@
  * @requires module:Util/Registry
  * @requires module:Util/Logger
  */
-Sheru.include('Component/Definition', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
+Shell.include('Component/Definition', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
 	
 	var requiredDefinitionFields = [];
 	

@@ -1,4 +1,4 @@
-Sheru.include('Test/Component/Id', ['Component/Id', 'Util/Logger'], function(IdGenerator, Logger) {
+Shell.include('Test/Component/Id', ['Component/Id', 'Util/Logger'], function(IdGenerator, Logger) {
 
     describe('Component/Id', function () {
 

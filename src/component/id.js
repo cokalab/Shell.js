@@ -3,7 +3,7 @@
  * 
  * @module Component/Id
  */
-Sheru.include('Component/Id', null, function() {
+Shell.include('Component/Id', null, function() {
 	
 	var counter = 0;
 	
@@ -17,7 +17,7 @@ Sheru.include('Component/Id', null, function() {
 		 */
 		generate: function() {
 			counter ++;
-			return 'Sheru-' + counter;
+			return 'Shell-' + counter;
 		}
 		
 	};

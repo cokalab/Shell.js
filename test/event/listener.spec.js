@@ -1,4 +1,4 @@
-Sheru.include('Test/Event/Listener', ['Event/Event', 'Event/Listener'], function(Event, Listener) {
+Shell.include('Test/Event/Listener', ['Event/Event', 'Event/Listener'], function(Event, Listener) {
 
     describe('Event.Listener', function () {
         

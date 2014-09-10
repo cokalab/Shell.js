@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 
-    var src = ['src/core.js', 'src/version.js', 'src/**/*.js'];
+    var src = ['src/shell.js', 'src/version.js', 'src/**/*.js'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -10,14 +10,14 @@ module.exports = function (grunt) {
             },
             dist: {
                 src: src,
-                dest: 'dist/sheru.js'
+                dest: 'dist/shell.js'
             }
 
         },
         uglify: {
             build: {
-                src: 'dist/sheru.js',
-                dest: 'dist/sheru-min.js'
+                src: 'dist/shell.js',
+                dest: 'dist/shell.min.js'
             }
         },
         jshint: {
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
         },
         jasmine: {
             pivotal: {
-                src: 'dist/sheru.js',
+                src: 'dist/shell.js',
                 options: {
                     specs: 'test/**/*.spec.js'
                 }

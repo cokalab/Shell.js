@@ -6,7 +6,7 @@
  * @requires module:Util/Namespace
  * @requires module:Util/Logger
  */
-Sheru.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(Namespace, Logger) {
+Shell.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(Namespace, Logger) {
 	
 	/**
 	 * Error handler implementation (Singleton).
@@ -67,7 +67,7 @@ Sheru.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(N
 	 * Enable error handling.
 	 * All errors are caught internally and logged.
 	 * 
-	 * @memberOf Sheru.debug
+	 * @memberOf Shell.debug
 	 * @method enableErrorHandler
 	 */
 	Namespace.exportMethod('debug.enableErrorHandler', function() {
@@ -78,7 +78,7 @@ Sheru.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(N
 	 * Disable error handling.
 	 * All errors are thrown to the browser console directly.
 	 * 
-	 * @memberOf Sheru.debug
+	 * @memberOf Shell.debug
 	 * @method disableErrorHandler
 	 */
 	Namespace.exportMethod('debug.disableErrorHandler', function() {

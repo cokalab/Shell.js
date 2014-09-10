@@ -1,4 +1,4 @@
-Sheru.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
+Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 
 	describe('Util/Validator.validate', function () {
 

@@ -9,7 +9,7 @@
  * @requires module:Util/ErrorHandler
  * @requires module:Util/Logger
  */
-Sheru.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, Lookup, ErrorHandler, Logger) {
+Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, Lookup, ErrorHandler, Logger) {
 
 	Logger.disable();
 	DefinitionMgr.addRequiredDefinitionField('events');
@@ -31,7 +31,7 @@ Sheru.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		var queue = [];
 		
 		/**
-		 * Return the IDs of the components registered to this Sheru object.
+		 * Return the IDs of the components registered to this Shell object.
 		 * 
 		 * @method
 		 * @return Component IDs {string[]}
@@ -41,7 +41,7 @@ Sheru.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Trigger an event on behalf of all components registered to this Sheru object.
+		 * Trigger an event on behalf of all components registered to this Shell object.
 		 * 
 		 * @method
 		 * @param action {string} Event action name
@@ -61,7 +61,7 @@ Sheru.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Listen to an event on behalf of all components registered to this Sheru object.
+		 * Listen to an event on behalf of all components registered to this Shell object.
 		 * 
 		 * @method
 		 * @param action {string} Event action name
@@ -87,7 +87,7 @@ Sheru.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 
 		/**
-		 * Stop listening to an event on behalf of all components registered to this Sheru object.
+		 * Stop listening to an event on behalf of all components registered to this Shell object.
 		 * Action, callback, and context are optional to remove more specific listeners.
 		 * 
 		 * @method
@@ -115,7 +115,7 @@ Sheru.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Destroy all components registered to this Sheru object
+		 * Destroy all components registered to this Shell object
 		 * 
 		 * @method
 		 */

@@ -1,5 +1,4 @@
-
-Sheru.include('Test/Event/Event', ['Event/Event'], function(Event) {
+Shell.include('Test/Event/Event', ['Event/Event'], function(Event) {
 
     describe('Event.Event', function () {
         

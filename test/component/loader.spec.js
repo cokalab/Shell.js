@@ -1,4 +1,4 @@
-Sheru.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], function(Loader, Logger) {
+Shell.include('Test/Component/Loader', ['Component/Loader', 'Util/Logger'], function(Loader, Logger) {
 
     describe('Component/Loader', function () {
 

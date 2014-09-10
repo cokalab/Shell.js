@@ -1,12 +1,12 @@
 /**
  * @global
- * @namespace Sheru
+ * @namespace Shell
  */
 /**
- * @namespace Sheru.debug
- * @memberof Sheru
+ * @namespace Shell.debug
+ * @memberof Shell
  */
-var Sheru = {};
+var Shell = {};
 
 /**
  * Include a module into the Core library
@@ -15,13 +15,13 @@ var Sheru = {};
  * A module retrieves other core modules by passing their module IDs as a list of dependencies.
  * When the factory method is invoked, dependencies are passed in as arguments.
  *
- * @memberOf Sheru
+ * @memberOf Shell
  * @method include
  * @param id {string} Module ID
  * @param dependencies {string[]} Dependency module IDs.
  * @param constructor {function} Factory constructor method. The return value is stored as the dependency instance.
  */
-Sheru.include = (function() {
+Shell.include = (function() {
 
     // Module class
     var Module = function(id, dependencies, constructor) {
