@@ -5,8 +5,8 @@
  * @module Util/Namespace
  */
 Shell.include('Util/Namespace', null, function() {
-
-    // Public interfaces
+	'use strict'
+	
     return {
 
         /**
@@ -21,12 +21,6 @@ Shell.include('Util/Namespace', null, function() {
          * @param method {function} Method to export.
          */
         exportMethod: function(namespace, method) {
-            if(typeof namespace != 'string' || !namespace) {
-                throw 'Invalid namespace.';
-            }
-            if(typeof method != 'function' || !method) {
-                throw 'Invalid method.';
-            }
             var namespacedObj = Shell;
             var parts = namespace.split(".");
             for(var x=0; x<parts.length; x++) {

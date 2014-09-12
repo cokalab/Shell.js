@@ -85,7 +85,34 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
 			
 		};
-
+		
+		/**
+		 * Listen to an event on behalf of all components registered to this Shell object.
+		 * The only difference is the listener will be removed after it is executed.
+		 * 
+		 * @method
+		 * @param action {string} Event action name
+		 * @param callback {function} Callback function
+		 * @param context {?(string|number|boolean|object)} Becomes "this" when callback is executed. If no context is provided, component instance itself becomes the context.
+		 */
+		this.once = function(action, callback, context) {
+			ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
+				if(typeof action != 'string' || !action) {
+					throw 'Invalid action';
+				}
+				if(typeof callback != 'function') {
+					throw 'Invalid callback';
+				}
+				if(typeof context == 'function') {
+					throw 'Invalid context';
+				}
+				for(var x=0; x<id.length; x++) {
+					EventBus.addListener(id[x], action, callback, context || Loader.load(id), true);
+				}
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
+			
+		};
+		
 		/**
 		 * Stop listening to an event on behalf of all components registered to this Shell object.
 		 * Action, callback, and context are optional to remove more specific listeners.

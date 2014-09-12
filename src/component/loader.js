@@ -63,6 +63,7 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
             ComponentRegistry.set(id, component);
             return component;
         };
+
         
         /**
          * Look up a component's ID if component provided is already loaded

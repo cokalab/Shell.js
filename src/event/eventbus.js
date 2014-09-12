@@ -24,12 +24,18 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		 * @param channel {string}
 		 * @param action {string}
 		 * @param payload {?(string|number|boolean|object)}
+		 * @param once {?boolean} If set to true, listener is removed right after. 
 		 */
-		this.trigger = function(channel, action, payload) {
+		this.trigger = function(channel, action, payload, once) {
 			if(listeners[channel] && listeners[channel][action]) {
 				var iListeners = listeners[channel][action];
-				for(var index in iListeners) {
-					iListeners[index].execute(new Event(channel, action, payload));
+				for(var x = 0; x<iListeners.length; x++) {
+					iListeners[x].execute(new Event(channel, action, payload));
+					if(iListeners[x].isOneTime()) {
+						console.log('one time')
+						iListeners.splice(x, 1);
+						x--;
+					}
 				}
 			}
 			Logger.debug('Triggered event', {channel: channel, action: action, payload: payload});
@@ -43,11 +49,12 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		 * @param action {string}
 		 * @param callback {function}
 		 * @param context {string|boolean|number|object}
+		 * @param onetime {?boolean} Indicate if this is an one time use only listener
 		 */
-		this.addListener = function(channel, action, callback, context) {
+		this.addListener = function(channel, action, callback, context, onetime) {
 			listeners[channel] = listeners[channel] || {};
 			listeners[channel][action] = listeners[channel][action] || [];
-			listeners[channel][action].push(new Listener(callback, context));
+			listeners[channel][action].push(new Listener(callback, context, onetime));
 			Logger.debug('Added listener', {channel: channel, action: action, callback: callback, context: context});
 		};
 

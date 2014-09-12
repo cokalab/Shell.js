@@ -60,6 +60,17 @@ Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Log
 				return [];
 			}
 		},
+
+		/**
+		 * Get all IDs registered to the lookup module
+		 * 
+		 * @method
+		 * @static
+		 * @return id {string[]}
+		 */
+		getAll: function() {
+			return ReversedLookupRegistry.getKeys();
+		},
 		
 		/**
 		 * Remove lookup information

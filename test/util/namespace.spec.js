@@ -19,18 +19,6 @@ Shell.include('Test/Util/Namespace', ['Util/Namespace'], function(Namespace) {
             expect(Shell.levelOne.levelTwo).not.toBeDefined(); 
         });
 
-        it('Invalid namespace', function () {
-            expect(function() {
-                Namespace.exportMethod(123, noop);
-            }).toThrow(); 
-        });
-
-        it('Invalid method', function () {
-            expect(function() {
-                Namespace.exportMethod('Level01', null);
-            }).toThrow(); 
-        });
-        
     });
     
 });

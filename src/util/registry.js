@@ -15,11 +15,6 @@ Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
 	 */
 	var Registry = function(name) {
 		
-		// Validate registry name
-		if(typeof name != 'string' || !name) {
-			throw 'Invalid registry name.';
-		}
-		
 		// Key value pair storage
 		var storage = {};
 		
@@ -49,6 +44,20 @@ Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
 				}
 			}
 			return null;
+		};
+		
+		/**
+		 * Get all keys
+		 * 
+		 * @method
+		 * @return keys {string[]}
+		 */
+		this.getKeys = function() {
+			var keys = [];
+			for(var key in storage) {
+				keys.push(key);
+			}
+			return keys;
 		};
 		
 		/**
@@ -98,23 +107,6 @@ Shell.include('Util/Registry', ['Util/Logger'], function(Logger) {
 				this.remove(key);
 			}
 		};
-		
-		/**
-		 * Monitor memory usage.
-		 * Return the total number registered objects.
-		 * 
-		 * @method
-		 * @return stats {object} 
-		 */
-		this.monitor = function() {
-			var total = 0;
-			for(var key in storage) {
-				total ++;
-			}
-			return {
-				total: total 
-			};
-		}
 		
 	};
 	

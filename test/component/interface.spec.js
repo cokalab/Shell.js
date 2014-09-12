@@ -17,14 +17,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	expect(shell.getComponents()).toEqual(['1', '2', '3']);
         });
 
-        it('Construct', function () {
-        	var shell = new Interface('id');
-        	expect(shell.getComponents()).toEqual(['id']);
-        	var shell = new Interface(['1', '2', '3']);
-        	expect(shell.getComponents()).toEqual(['1', '2', '3']);
-        });
-
-        it('Add listener, remove listener, and trigger events', function () {
+        it('On, Trigger, and Off', function () {
         	var flag = false;
         	var foo = function() {
         		flag = true;
@@ -42,7 +35,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	expect(flag).toEqual(false);
         });
 
-        it('Add multiple listeners and trigger events', function () {
+        it('On multiple times and trigger', function () {
         	var counter = 0;
         	var foo = function() {
         		counter ++;
@@ -54,7 +47,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	expect(counter).toEqual(2);
         });
 
-        it('Add and remove multiple listeners', function () {
+        it('On and off multiple times', function () {
         	var counter = 0;
         	var foo = function() {
         		counter ++;
@@ -64,6 +57,19 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	shell.on('act', function() {}, this);
         	shell.off('act')
         	expect(EventBus.isListener('id', 'act')).toEqual(false);
+        });
+
+        it('Once and trigger', function () {
+        	var counter = 0;
+        	var foo = function() {
+        		counter ++;
+        	}
+        	var context = {};
+        	var shell = new Interface('id-once');
+        	shell.once('act', foo, this);
+        	shell.trigger('act');
+        	shell.trigger('act');
+        	expect(counter).toEqual(1);
         });
 
         it('Destroy', function() {

@@ -10,9 +10,10 @@ Shell.include('Event/Listener', ['Event/Event'], function() {
 	 * @class
 	 * @param callback {function}
 	 * @param context {string|number|boolean|object}
+	 * @param onetime {?boolean}
 	 * @alias module:Event/Listener
 	 */
-	var Listener = function(callback, context) {
+	var Listener = function(callback, context, oneTime) {
 
 		/**
 		 * Compare current listener's callback and context to another callback and context combination. 
@@ -24,7 +25,7 @@ Shell.include('Event/Listener', ['Event/Event'], function() {
 		 * @return {boolean} True if both callback and context match; false otherwise.
 		 */
 		this.compare = function(iCallback, iContext) {
-			if (callback === iCallback && context === iContext) {
+			if (callback === iCallback && context == iContext) {
 				return true;
 			}
 			return false;
@@ -40,6 +41,16 @@ Shell.include('Event/Listener', ['Event/Event'], function() {
 			callback.call(context, event.getPayload());
 		};
 
+		/**
+		 * Return true if this listener is one time use only
+		 * 
+		 * @method
+		 * @return {boolean}
+		 */
+		this.isOneTime = function() {
+			return !!oneTime;
+		};
+		
 	};
 	
 	return Listener;

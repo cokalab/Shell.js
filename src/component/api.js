@@ -114,6 +114,24 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 		}, [Loader, DefinitionMgr, selector], this, 'Encountered error in "Shell.create".');
 
 	});
+
+	/**
+	 * Destroy all components
+	 * 
+	 * @memberOf Shell
+	 * @method destroy
+	 */
+	Namespace.exportMethod('destroy', function() {
+		return ErrorHandler.execute(function(Loader, DefinitionMgr, Lookup) {
+			var ids = Lookup.getAll();
+			for(var x=0; x<ids.length; x++) {
+				var id = ids[x];
+			}
+		}, 
+		[Loader, DefinitionMgr, Lookup], this, 
+		'Encountered error in "Shell.create".');
+
+	});
 	
 	/**
 	 * Get component definition (debug)

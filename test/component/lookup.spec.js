@@ -33,6 +33,11 @@ Shell.include('Test/Component/Lookup', ['Component/Lookup', 'Util/Logger'], func
             }).toThrow();
         });
 
+        it('Get keys', function () {
+            Lookup.register('k1', 'class-k1');
+            expect(Lookup.getAll().indexOf('k1') >= 0).toEqual(true);
+        });
+
         it('Remove', function () {
             Lookup.register('r1', 'class-r1');
             Lookup.register('r2', 'class-r1');
