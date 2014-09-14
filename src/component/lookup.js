@@ -60,6 +60,18 @@ Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Log
 				return [];
 			}
 		},
+		
+		/**
+		 * Lookup up class based on a given ID. 
+		 * 
+		 * @method
+		 * @static
+		 * @param id {string}
+		 * @return class {string}
+		 */
+		lookupClass: function(id) {
+			return ReversedLookupRegistry.get(id);
+		},
 
 		/**
 		 * Get all IDs registered to the lookup module

@@ -126,6 +126,8 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			var ids = Lookup.getAll();
 			for(var x=0; x<ids.length; x++) {
 				var id = ids[x];
+				new Interface(ids).destroy();
+				
 			}
 		}, 
 		[Loader, DefinitionMgr, Lookup], this, 

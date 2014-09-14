@@ -1,4 +1,4 @@
-Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBus', 'Component/Loader', 'Util/Logger'], function(Interface, EventBus, Loader, Logger) {
+Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/Logger'], function(Interface, EventBus, Loader, Definition, Lookup, Logger) {
 
     describe('Component/Interface', function () {
 
@@ -73,9 +73,13 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         });
 
         it('Destroy', function() {
-        	var shell = new Interface('id');
+        	Lookup.register('id-d', 'class-d');
+        	Definition.set('class-d', {
+        		'events': {}
+        	});
+        	var shell = new Interface('id-d');
         	shell.destroy();
-        	expect(Loader.exist('id')).toEqual(false);
+        	expect(Loader.exist('id-d')).toEqual(false);
         });
         
     });

@@ -20,7 +20,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 	 * @param id {string|string[]} ID of one or multiple components
 	 * @alias module:Component/Interface
 	 */
-	var Shell = function(id) {
+	var Interface = function(id) {
 		
 		// Transform id into an array if it is provided as a string value.
 		if(typeof id == 'string') {
@@ -31,7 +31,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		var queue = [];
 		
 		/**
-		 * Return the IDs of the components registered to this Shell object.
+		 * Return the IDs of the components registered to this Interface object.
 		 * 
 		 * @method
 		 * @return Component IDs {string[]}
@@ -41,7 +41,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Trigger an event on behalf of all components registered to this Shell object.
+		 * Trigger an event on behalf of all components registered to this Interface object.
 		 * 
 		 * @method
 		 * @param action {string} Event action name
@@ -61,7 +61,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Listen to an event on behalf of all components registered to this Shell object.
+		 * Listen to an event on behalf of all components registered to this Interface object.
 		 * 
 		 * @method
 		 * @param action {string} Event action name
@@ -87,7 +87,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Listen to an event on behalf of all components registered to this Shell object.
+		 * Listen to an event on behalf of all components registered to this Interface object.
 		 * The only difference is the listener will be removed after it is executed.
 		 * 
 		 * @method
@@ -114,7 +114,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Stop listening to an event on behalf of all components registered to this Shell object.
+		 * Stop listening to an event on behalf of all components registered to this Interface object.
 		 * Action, callback, and context are optional to remove more specific listeners.
 		 * 
 		 * @method
@@ -142,23 +142,26 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		};
 		
 		/**
-		 * Destroy all components registered to this Shell object
+		 * Destroy all components registered to this Interface object
 		 * 
 		 * @method
 		 */
 		this.destroy = function() {
-
-			ErrorHandler.execute(function(EventBus, Loader, Lookup, id) {
+			ErrorHandler.execute(function(EventBus, Loader, DefinitionMgr, Lookup, id) {
 				for(var x=0; x<id.length; x++) {
+					var clazz = Lookup.lookupClass(id[x]);
+					if(DefinitionMgr.get(clazz).indestructible) {
+						continue;
+					}
 					Loader.destroy(id[x]);
 					Lookup.remove(id);
 					EventBus.removeListener(id[x]);
 				}
-			}, [EventBus, Loader, Lookup, id], this, 'Encountered error in "Component/Interface.destroy".')
+			}, [EventBus, Loader, DefinitionMgr, Lookup, id], this, 'Encountered error in "Component/Interface.destroy".')
 			
 		};
 	}
 	
-	return Shell;
+	return Interface;
 	
 });

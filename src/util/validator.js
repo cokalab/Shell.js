@@ -6,43 +6,54 @@
  */
 Shell.include('Util/Validator', null, function () {
 
-	var structureMatches = function (structure, data) {
-		matches = true;
-		for (var el in structure) {
-			if (!(el in data)) {
-				matches = false;
-				break;
+	/**
+	 * Return native validation method
+	 * 
+	 * @method
+	 * @private
+	 * @param type {string} string, number, boolean, array, or object
+	 * @return validation method {function}
+	 */
+	var getNativeTypeValidator = function(type) {
+		return function(data) {
+			if(typeof data == type) {
+				return true;
 			}
-			else if (typeof structure[el] == 'object') {
-				matches = structureMatches(structure[el], data[el]);
-				if (!matches) {
-					break;
-				}
-			}
-			else if (typeof data[el] !== structure[el]) {
-				matches = false;
-				break;
-			}
-		}
-		return matches;
-	}
+			return false;
+		};
+	};
 
+	/**
+	 * Validation rules. This can be extended to support jquery and other type of variables
+	 */
+	var rules = {};
+	rules['string'] = getNativeTypeValidator('string');
+	rules['number'] = getNativeTypeValidator('boolean');
+	rules['boolean'] = getNativeTypeValidator('boolean');
+	rules['array'] = getNativeTypeValidator('array');
+	rules['object'] = getNativeTypeValidator('object');
+	
 	// Public interfaces
 	return {
-		/**
-		 * Compares the data passed with the expected data structure and type
-		 * If an existing method already exists, exception is thrown
-		 * Ex: method exports under "execute" becomes "Shell.execute"
-		 *
-		 * @public
-		 * @static
-		 * @method
-		 * @param expectedStructure {object} The expected data structure with types
-		 * @param data {object} Actual data to be validated.
-		 * @return {boolean}
-		 */
-		validate: function (expectedStructure, data) {
-			return structureMatches(expectedStructure, data);
+		
+		validate: function (structure, data) {
+			if(typeof structure == 'string') {
+				var validator = rules[structure];
+				return validator(data);
+			}
+			else if(typeof structure == 'object' && typeof data == 'object'){
+				for(var key in data) {
+					if(typeof structure[key] == 'undefined' || structure[key] === null) {
+						return false;
+					}
+					var validated = this.validate(structure[key], data[key]);
+					if(!validated) {
+						return false;
+					}
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 

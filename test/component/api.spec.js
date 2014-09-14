@@ -64,7 +64,6 @@ Shell.include('Test/Component/Api', ['Component/Api', 'Component/Loader', 'Compo
         	expect(shell.getComponents()).toEqual(['class-3']);
         	var component = Loader.load('class-3');
         	shell = Shell.find(component);
-        	console.log(shell);
         	expect(shell.getComponents()).toEqual(['class-3']);
         });
         

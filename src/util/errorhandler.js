@@ -70,9 +70,7 @@ Shell.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(N
 	 * @memberOf Shell.debug
 	 * @method enableErrorHandler
 	 */
-	Namespace.exportMethod('debug.enableErrorHandler', function() {
-		ErrorHandler.enable();
-	});
+	Namespace.exportMethod('debug.enableErrorHandler', ErrorHandler.enable);
 	
 	/**
 	 * Disable error handling.
@@ -81,9 +79,7 @@ Shell.include('Util/ErrorHandler', ['Util/Namespace', 'Util/Logger'], function(N
 	 * @memberOf Shell.debug
 	 * @method disableErrorHandler
 	 */
-	Namespace.exportMethod('debug.disableErrorHandler', function() {
-		ErrorHandler.disable();
-	});
+	Namespace.exportMethod('debug.disableErrorHandler', ErrorHandler.disable);
 	
 	return ErrorHandler;
 	

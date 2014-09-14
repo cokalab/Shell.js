@@ -32,7 +32,6 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 				for(var x = 0; x<iListeners.length; x++) {
 					iListeners[x].execute(new Event(channel, action, payload));
 					if(iListeners[x].isOneTime()) {
-						console.log('one time')
 						iListeners.splice(x, 1);
 						x--;
 					}

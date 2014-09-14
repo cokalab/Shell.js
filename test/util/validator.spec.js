@@ -2,6 +2,14 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 
 	describe('Util/Validator.validate', function () {
 
+		it('native type validation success', function () {
+			expect(Validator.validate('string', '123')).toEqual(true);
+		});
+
+		it('native type validation failure', function () {
+			expect(Validator.validate('string', 123)).toEqual(false);
+		});
+
 		it('basic structure validation success', function () {
 			expect(Validator.validate({
 				a: 'string',
@@ -50,18 +58,16 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 					}
 				}
 			}, {
-				a: 'test string 1',
+				a: '123',
 				b: {
 					c: {
-						d: 12,
+						d: 'number',
 						e: {
-							f: {}
+							f: 'object'
 						}
 					}
 				}
-			})).toEqual(true);
+			})).toEqual(false);
 		});
 
-	});
-
-});
+	});});
