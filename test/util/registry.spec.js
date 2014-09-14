@@ -17,6 +17,20 @@ Shell.include('Test/Util/Registry', ['Util/Registry', 'Util/Logger'], function(R
         	expect(registry.get('key')).toEqual('object');
         });
 
+        it('Remove', function () {
+        	var registry = new  Registry('test');
+        	registry.set('key', 'object');
+        	registry.remove('key');
+        	expect(registry.get('key')).toEqual(null);
+        });
+    	
+        it('Exist', function () {
+        	var registry = new  Registry('test');
+        	expect(registry.exist('key')).toEqual(false);
+        	registry.set('key', 'object');
+        	expect(registry.exist('key')).toEqual(true);
+        });
+     
         it('Get all keys', function () {
         	var registry = new  Registry('test');
         	registry.set('key1', 'object1');
@@ -29,22 +43,15 @@ Shell.include('Test/Util/Registry', ['Util/Registry', 'Util/Logger'], function(R
         	registry.set('key', 'object');
         	expect(registry.getKey('object')).toEqual('key');
         });
-    	
-        it('Remove object', function () {
+        
+        it('Reset', function () {
         	var registry = new  Registry('test');
-        	registry.set('key', 'object');
-        	expect(registry.get('key')).toEqual('object');
-        	registry.remove('key');
-        	expect(registry.get('key')).toEqual(null);
+        	registry.set('key1', 'object1');
+        	registry.set('key2', 'object2');
+        	registry.reset();
+        	expect(registry.getKeys()).toEqual([]);
         });
     	
-        it('Exist', function () {
-        	var registry = new  Registry('test');
-        	expect(registry.exist('key')).toEqual(false);
-        	registry.set('key', 'object');
-        	expect(registry.exist('key')).toEqual(true);
-        });
-     
     });
     
 });

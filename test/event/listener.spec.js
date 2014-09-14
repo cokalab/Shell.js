@@ -18,6 +18,14 @@ Shell.include('Test/Event/Listener', ['Event/Event', 'Event/Listener'], function
         	var listener = new Listener(tester.callback, tester);
         	expect(listener.compare(tester.callback, tester)).toEqual(true);
         });
+
+        it('One time listener', function () {
+        	var tester = {};
+        	tester.callback = function() {};
+        	spyOn(tester, 'callback');
+        	var listener = new Listener(tester.callback, tester, true);
+        	expect(listener.isOneTime()).toEqual(true);
+        });
         
     });
     

@@ -4,19 +4,21 @@ Shell.include('Test/Util/Namespace', ['Util/Namespace'], function(Namespace) {
         
         noop = function() {};
         
-        it('One level namespace', function () {
-            Namespace.exportMethod('level1', noop);
-            expect(Shell.level1).toEqual(noop);
+        it('Export method to level one namespace', function () {
+            Namespace.exportMethod('noop', noop);
+            expect(Shell.noop).toEqual(noop);
         });
         
-        it('Two level namespace', function () {
-            Namespace.exportMethod('levelA.levelB', noop);
-            expect(Shell.levelA.levelB).toEqual(noop);
+        it('Export method to level two namespace', function () {
+            Namespace.exportMethod('two.noop', noop);
+            expect(Shell.two.noop).toEqual(noop);
         });
-
-        it('Undefined namespace', function () {
-            Namespace.exportMethod('levelOne', noop);
-            expect(Shell.levelOne.levelTwo).not.toBeDefined(); 
+        
+        it('Export multiple methods to level two namespace', function () {
+            Namespace.exportMethod('noop1', noop);
+            Namespace.exportMethod('noop2', noop);
+            expect(Shell.noop1).toEqual(noop);
+            expect(Shell.noop2).toEqual(noop);
         });
 
     });

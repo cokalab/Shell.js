@@ -12,23 +12,44 @@ Shell.include('Test/Util/ErrorHandler', [ 'Util/ErrorHandler', 'Util/Logger' ],
 					ErrorHandler.disable();
 				});
 
-				it('Ignore error', function() {
+				it('Ignore error (Invoked from module)', function() {
+					spyOn(Logger, 'error');
 					ErrorHandler.disable();
 					expect(function() {
 						ErrorHandler.execute(function() {
 							throw 'exception';
 						}, [], this);
 					}).toThrow();
+					expect(Logger.error).not.toHaveBeenCalled()
 				});
 
-				it('catch error', function() {
-					spyOn(console, 'error');
+				it('Ignore error (Invoked from global debugger)', function() {
+					spyOn(Logger, 'error');
+					Shell.debug.disableErrorHandler();
+					expect(function() {
+						ErrorHandler.execute(function() {
+							throw 'exception';
+						}, [], this);
+					}).toThrow();
+					expect(Logger.error).not.toHaveBeenCalled()
+				});
+
+				it('Throw error (Invoked from module)', function() {
+					spyOn(Logger, 'error');
 					ErrorHandler.enable();
-					Logger.enable();
 					ErrorHandler.execute(function() {
 						throw 'exception';
 					}, [], this);
-					expect(console.error).toHaveBeenCalled()
+					expect(Logger.error).toHaveBeenCalled()
+				});
+
+				it('Throw error (Invoked from global debugger)', function() {
+					spyOn(Logger, 'error');
+					Shell.debug.enableErrorHandler();
+					ErrorHandler.execute(function() {
+						throw 'exception';
+					}, [], this);
+					expect(Logger.error).toHaveBeenCalled()
 				});
 
 			});
