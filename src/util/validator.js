@@ -16,7 +16,7 @@ Shell.include('Util/Validator', null, function () {
 	 */
 	var getNativeTypeValidator = function(type) {
 		return function(data) {
-			if(typeof data == type) {
+			if(typeof data == type && data !== null) {
 				return true;
 			}
 			return false;
@@ -36,8 +36,23 @@ Shell.include('Util/Validator', null, function () {
 	// Public interfaces
 	return {
 		
+		/**
+		 * Validate data structure
+		 * 
+		 * @method
+		 * @param structure {?(object | string)} Expected data structure
+		 * @param data {?(object | string | number | boolean | object)} Actual data to be validated.
+		 */
 		validate: function (structure, data) {
-			if(typeof structure == 'string') {
+			if(typeof structure == 'undefined' || structure === null || structure === 'null') {
+				if(typeof data == 'undefined' || data === null) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else if(typeof structure == 'string') {
 				var validator = rules[structure];
 				return validator(data);
 			}
@@ -54,6 +69,20 @@ Shell.include('Util/Validator', null, function () {
 				return true;
 			}
 			return false;
+		},
+		
+		/**
+		 * Validate data structure and throw an exception if data is not validated
+		 * 
+		 * @method
+		 * @param structure {?(object | string)} Expected data structure
+		 * @param data {?(object | string | number | boolean | object)} Actual data to be validated.
+		 * @param errorMsg {string} Error to be thrown 
+		 */
+		validateAndThrow: function(structure, data, errorMsg) {
+			if(!this.validate(structure, data)) {
+				throw errorMsg;
+			}
 		}
 	}
 

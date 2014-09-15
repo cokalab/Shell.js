@@ -1,12 +1,29 @@
 Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/Logger'], function(Interface, EventBus, Loader, Definition, Lookup, Logger) {
 
     describe('Component/Interface', function () {
-
+    	
         beforeEach(function() {
+
+        	spyOn(Lookup, 'lookupClass').and.callFake(function() {
+        		return 'class';
+        	});
+        	
+        	spyOn(Definition, 'get').and.callFake(function() {
+        		return {
+        			inputs: {
+        				'input': null
+        			},
+        			outputs: {
+        				'output': null
+        			}
+        		};
+        	});
+
             Logger.disable();
         });
 
         afterEach(function() {
+        	
             Logger.enable();
         });
 
@@ -17,21 +34,39 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	expect(shell.getComponents()).toEqual(['1', '2', '3']);
         });
 
-        it('On, Trigger, and Off', function () {
+        it('On, Trigger, and Off (input)', function () {
         	var flag = false;
         	var foo = function() {
         		flag = true;
         	}
         	// Add listener
         	var shell = new Interface('id');
-        	shell.on('act', foo, this);
+        	shell.on('input', foo, this);
         	// Trigger
-        	shell.trigger('act');
+        	shell.trigger('input');
         	expect(flag).toEqual(true);
         	// Remove listener
         	flag = false;
-        	shell.off('act', foo, this);
-        	shell.trigger('act');
+        	shell.off('input', foo, this);
+        	shell.trigger('input');
+        	expect(flag).toEqual(false);
+        });
+
+        it('On, Trigger, and Off (outputs)', function () {
+        	var flag = false;
+        	var foo = function() {
+        		flag = true;
+        	}
+        	// Add listener
+        	var shell = new Interface('id', true);
+        	shell.on('output', foo, this);
+        	// Trigger
+        	shell.trigger('output');
+        	expect(flag).toEqual(true);
+        	// Remove listener
+        	flag = false;
+        	shell.off('output', foo, this);
+        	shell.trigger('output');
         	expect(flag).toEqual(false);
         });
 
@@ -41,9 +76,9 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         		counter ++;
         	}
         	var shell = new Interface('id');
-        	shell.on('act', foo, this);
-        	shell.on('act', foo, this);
-        	shell.trigger('act');
+        	shell.on('input', foo, this);
+        	shell.on('input', foo, this);
+        	shell.trigger('input');
         	expect(counter).toEqual(2);
         });
 
@@ -53,10 +88,10 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         		counter ++;
         	}
         	var shell = new Interface('id');
-        	shell.on('act', function() {}, this);
-        	shell.on('act', function() {}, this);
-        	shell.off('act')
-        	expect(EventBus.isListener('id', 'act')).toEqual(false);
+        	shell.on('input', function() {}, this);
+        	shell.on('input', function() {}, this);
+        	shell.off('input')
+        	expect(EventBus.isListener('id', 'input')).toEqual(false);
         });
 
         it('Once and trigger', function () {
@@ -66,9 +101,9 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	}
         	var context = {};
         	var shell = new Interface('id-once');
-        	shell.once('act', foo, this);
-        	shell.trigger('act');
-        	shell.trigger('act');
+        	shell.once('input', foo, this);
+        	shell.trigger('input');
+        	shell.trigger('input');
         	expect(counter).toEqual(1);
         });
 
@@ -80,6 +115,27 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var shell = new Interface('id-d');
         	shell.destroy();
         	expect(Loader.exist('id-d')).toEqual(false);
+        });
+
+        it('Trigger with invalid action', function () {
+        	expect(function() {
+        		var shell = new Interface('id');
+        		shell.trigger(123);
+        	}).toThrow();
+        });
+
+        it('Trigger with invalid payload (inputs)', function () {
+        	expect(function() {
+        		var shell = new Interface('id');
+        		shell.trigger('input', 123);
+        	}).toThrow();
+        });
+
+        it('Trigger with invalid payload (outputs)', function () {
+        	expect(function() {
+        		var shell = new Interface('id', true);
+        		shell.trigger('input', 123);
+        	}).toThrow();
         });
         
     });

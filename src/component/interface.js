@@ -8,19 +8,17 @@
  * @requires module:Component/Lookup
  * @requires module:Util/ErrorHandler
  * @requires module:Util/Logger
+ * @requires module:Util/Validator
  */
-Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/ErrorHandler', 'Util/Logger'], function(EventBus, Loader, DefinitionMgr, Lookup, ErrorHandler, Logger) {
-
-	Logger.disable();
-	DefinitionMgr.addRequiredDefinitionField('events');
-	Logger.enable();
+Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(EventBus, Loader, DefinitionMgr, Lookup, ErrorHandler, Logger, Validator) {
 	
 	/**
 	 * @class
 	 * @param id {string|string[]} ID of one or multiple components
+	 * @param self {?boolean} True if the interface is requested by the component itself. False / Null if requested by other components.
 	 * @alias module:Component/Interface
 	 */
-	var Interface = function(id) {
+	var Interface = function(id, self) {
 		
 		// Transform id into an array if it is provided as a string value.
 		if(typeof id == 'string') {
@@ -48,15 +46,45 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 * @param payload {?(string|number|boolean|object)} Passed to all the listeners
 		 */
 		this.trigger = function(action, payload) {
-			
-			ErrorHandler.execute(function(EventBus, id, action, payload) {
-				if(typeof action != 'string' || !action) {
-					throw 'Invalid action';
+			ErrorHandler.execute(function(id, action, payload) {
+				Validator.validateAndThrow('string', action, 'Invalid action.');
+				var clazz = Lookup.lookupClass(id[x]);
+				if(DefinitionMgr.get(clazz).strict !== false) {
+					if(!self) {
+						var inputs = DefinitionMgr.get(clazz).inputs;
+						if(inputs && typeof inputs[action] != 'undefined') {
+							if(inputs[action] !== null && payload !== null) {
+								Validator.validateAndThrow(inputs[action], data, 'Invalid payload for input ' + action + ' in ' + clazz + '.');
+							}
+							if(inputs[action] === null || inputs[action] === 'null') {
+								console.log("here");
+								if(typeof payload != 'undefined' && payload !== null) {
+									throw 'Invalid payload for input ' + action + ' in ' + clazz + '.';
+								}
+							}
+						}
+					}
+					else {
+						var outputs = DefinitionMgr.get(clazz).outputs;
+						if(outputs && typeof outputs[action] != 'undefined') {
+							if(outputs[action] !== null && payload !== null) {
+								Validator.validateAndThrow(outputs[action], data, 'Invalid payload for output ' + action + ' in ' + clazz + '.');
+							}
+							if(outputs[action] === null || outputs[action] === 'null') {
+								if(typeof payload != 'undefined' && payload !== null) {
+									throw 'Invalid payload for output ' + action + ' in ' + clazz + '.';
+								}
+							}
+						}
+						else {
+							throw 'Undefined output ' + action + ' in ' + clazz + '.';
+						}
+					}
 				}
 				for(var x=0; x<id.length; x++) {
-					EventBus.trigger(id[x], action, payload);
+					this.EventBus.trigger(id[x], action, payload);
 				}
-			}, [EventBus, id, action, payload], this, 'Encountered error in "Component/Interface.trigger".')
+			}, [id, action, payload], {EventBus: EventBus}, 'Encountered error in "Component/Interface.trigger".')
 			
 		};
 		
@@ -83,7 +111,6 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					EventBus.addListener(id[x], action, callback, context || Loader.load(id) );
 				}
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
-			
 		};
 		
 		/**

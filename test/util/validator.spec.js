@@ -2,15 +2,15 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 
 	describe('Util/Validator.validate', function () {
 
-		it('native type validation success', function () {
+		it('Validate native type', function () {
 			expect(Validator.validate('string', '123')).toEqual(true);
 		});
 
-		it('native type validation failure', function () {
+		it('Validate native type and fail', function () {
 			expect(Validator.validate('string', 123)).toEqual(false);
 		});
 
-		it('basic structure validation success', function () {
+		it('Validate simple structure', function () {
 			expect(Validator.validate({
 				a: 'string',
 				b: 'object'
@@ -20,7 +20,7 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 			})).toEqual(true);
 		});
 
-		it('basic structure validation failure', function () {
+		it('Validate simple structure and fail', function () {
 			expect(Validator.validate({
 				a: 'number',
 				b: 'string',
@@ -32,7 +32,7 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 			})).toEqual(false);
 		});
 
-		it('complex structure validation success', function () {
+		it('Validate complex structure', function () {
 			expect(Validator.validate({
 				a: 'string',
 				b: {
@@ -46,7 +46,7 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 			})).toEqual(true);
 		});
 
-		it('complex structure validation failure', function () {
+		it('Validate complex structure and fail', function () {
 			expect(Validator.validate({
 				a: 'string',
 				b: {
@@ -70,4 +70,10 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 			})).toEqual(false);
 		});
 
+		it('Validate, fail and throw', function() {
+			expect(function() {
+				Validator.validateAndThrow('string', 123, 'Invalid parameter');
+			}).toThrow();
+		});
+		
 	});});

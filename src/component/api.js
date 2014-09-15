@@ -1,9 +1,19 @@
-Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger'], function(IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger) {
+/**
+ * Contains component life cycle public interfaces.
+ * 
+ * @module Component/Api
+ * @requires module:Component/Id
+ * @requires module:Component/Definition
+ * @requires module:Component/Loader
+ * @requires module:Component/Lookup
+ * @requires module:Component/Interface
+ * @requires module:Util/Namespace
+ * @requires module:Util/ErrorHandler
+ * @requires module:Util/Logger
+ * @requires module:Util/Validator
+ */
+Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger, Validator) {
 	"use strict"
-	
-	// Component interface.
-	// This is attached to all constructor's "Shell" prototype so that interface can be accessed while component is in the process of instantiation.
-	var ComponentInterface = null;
 	
 	// Interface queue
 	// New interface is pushed to the queue when a component is instantiated and poped after component is created.
@@ -21,17 +31,13 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 	 */
 	Namespace.exportMethod('define', function(clazz, definition, constructor) {
 		ErrorHandler.execute(function(clazz, definition, constructor) {
-			if(typeof clazz != 'string' || !clazz) {
-				throw 'Invalid class name.';
-			}
-			if(typeof definition != 'object') {
-				throw 'Invalid definition.';
-			}
+			Validator.validateAndThrow('string', clazz, 'Invalid class name.');
+			Validator.validateAndThrow('object', definition, 'Invalid definition.');
 			if(typeof constructor != 'function') {
 				throw 'Invalid constructor function.';
 			}
 			constructor.prototype.Shell = function() {
-				return ComponentInterface;
+				return ComponentInterfaceQueue[ComponentInterfaceQueue.length - 1];
 			};
 			DefinitionMgr.set(clazz, definition);
 			Loader.setConstructor(clazz, constructor);
@@ -63,8 +69,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 				id = IdGenerator.generate();
 			}
 			// Create an interface and push it to the queue
-			ComponentInterface = new Interface(id)
-			ComponentInterfaceQueue.push(ComponentInterface);
+			ComponentInterfaceQueue.push(new Interface(id, true));
 			// Load object
 			var component = this.Loader.load(id, clazz); 
 			// Register lookup data
@@ -73,9 +78,6 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			component.Shell = Shell.version;
 			// Pop the last interface from the queue after it's done and load the one before.
 			ComponentInterfaceQueue.pop();
-			if(ComponentInterfaceQueue.length > 0) {
-				ComponentInterface = ComponentInterfaceQueue[ComponentInterfaceQueue.length - 1]; 
-			}
 		}, [clazz], {
 			DefinitionMgr: DefinitionMgr,
 			Loader: Loader
@@ -97,7 +99,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			}
 			if (typeof selector == 'string') {
 				var ids = Lookup.lookup(selector);
-				var shell = new Interface(ids);
+				var shell = new Interface(ids, false);
 				return shell;
 			}
 			else if(typeof selector == 'object') {
@@ -106,7 +108,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 				}
 				else {
 					var ids = Loader.lookup(selector);
-					var shell = new Interface(ids);
+					var shell = new Interface(ids, true);
 					return shell;
 				}
 			}
