@@ -28,6 +28,52 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		// Event queue. 
 		var queue = [];
 		
+		// Task to be executed after component is instantiated.
+		var taskQueue = [];
+		
+		var ready = false;
+		
+		/**
+		 * Return true if the interface is ready to be used. False otherwise.
+		 * 
+		 * @return {boolean}
+		 */
+		var isReady = function() {
+			return ready;
+		};
+		
+		/**
+		 * Push task to task queue
+		 * 
+		 * @method
+		 * @private
+		 * @param method {function}
+		 */
+		var pushTask = function(method, args, context) {
+			taskQueue.push({
+				method: method,
+				args: args,
+				context: context,
+			});
+		};
+		
+		/**
+		 * Make the component ready and start executing tasks inside task queue.
+		 * "ready" method is removed afterward.
+		 * 
+		 * @method
+		 * @return {module:Component/Interface}
+		 */
+		this.initialize = function() {
+			ready = true;
+			delete this.initialize;
+			for(var x=0; x<taskQueue.length; x++) {
+				var task = taskQueue[x];
+				task.method.apply(task.context, task.args);
+			}
+			return this
+		};
+		
 		/**
 		 * Return the IDs of the components registered to this Interface object.
 		 * 
@@ -46,45 +92,49 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 * @param payload {?(string|number|boolean|object)} Passed to all the listeners
 		 */
 		this.trigger = function(action, payload) {
-			ErrorHandler.execute(function(id, action, payload) {
+			if(!isReady()) {
+				pushTask(this.trigger, [action, payload], this);
+				return;
+			}
+			return ErrorHandler.execute(function(EventBus, id, action, payload) {
 				Validator.validateAndThrow('string', action, 'Invalid action.');
-				var clazz = Lookup.lookupClass(id[x]);
-				if(DefinitionMgr.get(clazz).strict !== false) {
-					if(!self) {
-						var inputs = DefinitionMgr.get(clazz).inputs;
-						if(inputs && typeof inputs[action] != 'undefined') {
-							if(inputs[action] !== null && payload !== null) {
-								Validator.validateAndThrow(inputs[action], data, 'Invalid payload for input ' + action + ' in ' + clazz + '.');
-							}
-							if(inputs[action] === null || inputs[action] === 'null') {
-								console.log("here");
-								if(typeof payload != 'undefined' && payload !== null) {
-									throw 'Invalid payload for input ' + action + ' in ' + clazz + '.';
+				for(var x=0; x<id.length; x++) {
+					var clazz = Lookup.lookupClass(id[x]);
+					if(DefinitionMgr.get(clazz).strict !== false) {
+						if(!self) {
+							var inputs = DefinitionMgr.get(clazz).inputs;
+							if(inputs && typeof inputs[action] != 'undefined') {
+								if(inputs[action] !== null && payload !== null) {
+									Validator.validateAndThrow(inputs[action], data, 'Invalid payload for input ' + action + ' in ' + clazz + '.');
 								}
-							}
-						}
-					}
-					else {
-						var outputs = DefinitionMgr.get(clazz).outputs;
-						if(outputs && typeof outputs[action] != 'undefined') {
-							if(outputs[action] !== null && payload !== null) {
-								Validator.validateAndThrow(outputs[action], data, 'Invalid payload for output ' + action + ' in ' + clazz + '.');
-							}
-							if(outputs[action] === null || outputs[action] === 'null') {
-								if(typeof payload != 'undefined' && payload !== null) {
-									throw 'Invalid payload for output ' + action + ' in ' + clazz + '.';
+								if(inputs[action] === null || inputs[action] === 'null') {
+									if(typeof payload != 'undefined' && payload !== null) {
+										throw 'Invalid payload for input ' + action + ' in ' + clazz + '.';
+									}
 								}
 							}
 						}
 						else {
-							throw 'Undefined output ' + action + ' in ' + clazz + '.';
+							var outputs = DefinitionMgr.get(clazz).outputs;
+							if(outputs && typeof outputs[action] != 'undefined') {
+								if(outputs[action] !== null && payload !== null) {
+									Validator.validateAndThrow(outputs[action], data, 'Invalid payload for output ' + action + ' in ' + clazz + '.');
+								}
+								if(outputs[action] === null || outputs[action] === 'null') {
+									if(typeof payload != 'undefined' && payload !== null) {
+										throw 'Invalid payload for output ' + action + ' in ' + clazz + '.';
+									}
+								}
+							}
+							else {
+								throw 'Undefined output ' + action + ' in ' + clazz + '.';
+							}
 						}
 					}
+					EventBus.trigger(id[x], action, payload);
 				}
-				for(var x=0; x<id.length; x++) {
-					this.EventBus.trigger(id[x], action, payload);
-				}
-			}, [id, action, payload], {EventBus: EventBus}, 'Encountered error in "Component/Interface.trigger".')
+				return this;
+			}, [EventBus, id, action, payload], this, 'Encountered error in "Component/Interface.trigger".')
 			
 		};
 		
@@ -97,7 +147,11 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 * @param context {?(string|number|boolean|object)} Becomes "this" when callback is executed. If no context is provided, component instance itself becomes the context.
 		 */
 		this.on = function(action, callback, context) {
-			ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
+			if(!isReady()) {
+				pushTask(this.on, [action, callback, context], this);
+				return;
+			}
+			return ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
 				if(typeof action != 'string' || !action) {
 					throw 'Invalid action';
 				}
@@ -110,6 +164,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				for(var x=0; x<id.length; x++) {
 					EventBus.addListener(id[x], action, callback, context || Loader.load(id) );
 				}
+				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
 		};
 		
@@ -123,7 +178,11 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 * @param context {?(string|number|boolean|object)} Becomes "this" when callback is executed. If no context is provided, component instance itself becomes the context.
 		 */
 		this.once = function(action, callback, context) {
-			ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
+			if(!isReady()) {
+				pushTask(this.once, [action, callback, context], this);
+				return;
+			}
+			return ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
 				if(typeof action != 'string' || !action) {
 					throw 'Invalid action';
 				}
@@ -136,6 +195,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				for(var x=0; x<id.length; x++) {
 					EventBus.addListener(id[x], action, callback, context || Loader.load(id), true);
 				}
+				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
 			
 		};
@@ -150,8 +210,11 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 * @param context {?(string|number|boolean|object)} Becomes "this" when callback is executed. If no context is provided, component instance itself becomes the context.
 		 */
 		this.off = function(action, callback, context) {
-
-			ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
+			if(!isReady()) {
+				pushTask(this.off, [action, callback, context], this);
+				return;
+			}
+			return ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
 				if(typeof action != 'string' || !action) {
 					throw 'Invalid action';
 				}
@@ -164,6 +227,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				for(var x=0; x<id.length; x++) {
 					EventBus.removeListener(id[x], action, callback, context);
 				}
+				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.off".')
 			
 		};
@@ -174,6 +238,10 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 * @method
 		 */
 		this.destroy = function() {
+			if(!isReady()) {
+				pushTask(this.destroy, [action, callback, context], this);
+				return;
+			}
 			ErrorHandler.execute(function(EventBus, Loader, DefinitionMgr, Lookup, id) {
 				for(var x=0; x<id.length; x++) {
 					var clazz = Lookup.lookupClass(id[x]);

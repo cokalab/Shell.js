@@ -41,6 +41,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			};
 			DefinitionMgr.set(clazz, definition);
 			Loader.setConstructor(clazz, constructor);
+			return Shell;
 		}, [clazz, definition, constructor],
 		{
 			DefinitionMgr: DefinitionMgr,
@@ -77,7 +78,9 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			// Overwrite prototype
 			component.Shell = Shell.version;
 			// Pop the last interface from the queue after it's done and load the one before.
+			ComponentInterfaceQueue[ComponentInterfaceQueue.length-1].initialize();
 			ComponentInterfaceQueue.pop();
+			return new Interface(id).initialize();
 		}, [clazz], {
 			DefinitionMgr: DefinitionMgr,
 			Loader: Loader
@@ -99,7 +102,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			}
 			if (typeof selector == 'string') {
 				var ids = Lookup.lookup(selector);
-				var shell = new Interface(ids, false);
+				var shell = new Interface(ids, false).initialize();
 				return shell;
 			}
 			else if(typeof selector == 'object') {
@@ -108,7 +111,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 				}
 				else {
 					var ids = Loader.lookup(selector);
-					var shell = new Interface(ids, true);
+					var shell = new Interface(ids, true).initialize();
 					return shell;
 				}
 			}
@@ -131,6 +134,7 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 				new Interface(ids).destroy();
 				
 			}
+			return Shell;
 		}, 
 		[Loader, DefinitionMgr, Lookup], this, 
 		'Encountered error in "Shell.create".');

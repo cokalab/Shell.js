@@ -28,7 +28,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         });
 
         it('Construct', function () {
-        	var shell = new Interface('id');
+        	var shell = new Interface('id').initialize();
         	expect(shell.getComponents()).toEqual(['id']);
         	var shell = new Interface(['1', '2', '3']);
         	expect(shell.getComponents()).toEqual(['1', '2', '3']);
@@ -40,7 +40,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         		flag = true;
         	}
         	// Add listener
-        	var shell = new Interface('id');
+        	var shell = new Interface('id').initialize();
         	shell.on('input', foo, this);
         	// Trigger
         	shell.trigger('input');
@@ -58,7 +58,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         		flag = true;
         	}
         	// Add listener
-        	var shell = new Interface('id', true);
+        	var shell = new Interface('id', true).initialize();
         	shell.on('output', foo, this);
         	// Trigger
         	shell.trigger('output');
@@ -75,7 +75,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var foo = function() {
         		counter ++;
         	}
-        	var shell = new Interface('id');
+        	var shell = new Interface('id').initialize();
         	shell.on('input', foo, this);
         	shell.on('input', foo, this);
         	shell.trigger('input');
@@ -87,7 +87,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var foo = function() {
         		counter ++;
         	}
-        	var shell = new Interface('id');
+        	var shell = new Interface('id').initialize();
         	shell.on('input', function() {}, this);
         	shell.on('input', function() {}, this);
         	shell.off('input')
@@ -100,7 +100,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         		counter ++;
         	}
         	var context = {};
-        	var shell = new Interface('id-once');
+        	var shell = new Interface('id-once').initialize();
         	shell.once('input', foo, this);
         	shell.trigger('input');
         	shell.trigger('input');
@@ -112,28 +112,28 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	Definition.set('class-d', {
         		'events': {}
         	});
-        	var shell = new Interface('id-d');
+        	var shell = new Interface('id-d').initialize();
         	shell.destroy();
         	expect(Loader.exist('id-d')).toEqual(false);
         });
 
         it('Trigger with invalid action', function () {
         	expect(function() {
-        		var shell = new Interface('id');
+        		var shell = new Interface('id').initialize();
         		shell.trigger(123);
         	}).toThrow();
         });
 
         it('Trigger with invalid payload (inputs)', function () {
         	expect(function() {
-        		var shell = new Interface('id');
+        		var shell = new Interface('id').initialize();
         		shell.trigger('input', 123);
         	}).toThrow();
         });
 
         it('Trigger with invalid payload (outputs)', function () {
         	expect(function() {
-        		var shell = new Interface('id', true);
+        		var shell = new Interface('id', true).initialize();
         		shell.trigger('input', 123);
         	}).toThrow();
         });
