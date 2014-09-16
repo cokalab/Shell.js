@@ -11,19 +11,16 @@ Shell.include('Test/Component/Lookup', ['Component/Lookup', 'Util/Logger'], func
         });
         
         it('Lookup', function () {
-            Lookup.register('id1', 'class1');
-            expect(Lookup.lookup('class1')).toEqual(['id1']);
-            expect(Lookup.lookup('id1')).toEqual(['id1']);
+            Lookup.register('s1', 'class-s1');
+            expect(Lookup.lookup('class-s1')).toEqual(['s1']);
+            expect(Lookup.lookup('s1')).toEqual(['s1']);
         });
 
         it('Lookup with multiple instances', function () {
-            Lookup.register('id2', 'class2');
-            Lookup.register('id3', 'class2');
-            Lookup.register('id4', 'class2');
-            expect(Lookup.lookup('id2')).toEqual(['id2']);
-            expect(Lookup.lookup('id3')).toEqual(['id3']);
-            expect(Lookup.lookup('id4')).toEqual(['id4']);
-            expect(Lookup.lookup('class2')).toEqual(['id2', 'id3', 'id4']);
+            Lookup.register('m1', 'class-m2');
+            Lookup.register('m2', 'class-m2');
+            Lookup.register('m3', 'class-m2');
+            expect(Lookup.lookup('class-m2')).toEqual(['m1', 'm2', 'm3']);
         });
         
         it('Register same id twice', function () {

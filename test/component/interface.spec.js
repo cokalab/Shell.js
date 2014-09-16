@@ -108,13 +108,9 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         });
 
         it('Destroy', function() {
-        	Lookup.register('id-d', 'class-d');
-        	Definition.set('class-d', {
-        		'events': {}
-        	});
-        	var shell = new Interface('id-d').initialize();
+        	var shell = new Interface('id').initialize();
         	shell.destroy();
-        	expect(Loader.exist('id-d')).toEqual(false);
+        	expect(Loader.exist('id')).toEqual(false);
         });
 
         it('Trigger with invalid action', function () {
@@ -135,6 +131,13 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	expect(function() {
         		var shell = new Interface('id', true).initialize();
         		shell.trigger('input', 123);
+        	}).toThrow();
+        });
+
+        it('On with invalid context', function () {
+        	expect(function() {
+        		var shell = new Interface('id').initialize();
+        		shell.on('input', function() {});
         	}).toThrow();
         });
         

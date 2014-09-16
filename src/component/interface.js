@@ -33,6 +33,8 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		
 		var ready = false;
 		
+		var defaultContext = null;
+		
 		/**
 		 * Return true if the interface is ready to be used. False otherwise.
 		 * 
@@ -72,6 +74,17 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				task.method.apply(task.context, task.args);
 			}
 			return this
+		};
+		
+		/**
+		 * Set the default context binded to this interface.
+		 * Context becomes "this" variables in all the listener callback.
+		 * 
+		 * @method
+		 * @param context {}
+		 */
+		this.setContext = function(context) {
+			defaultContext = context;
 		};
 		
 		/**
@@ -151,6 +164,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				pushTask(this.on, [action, callback, context], this);
 				return;
 			}
+			context = context || defaultContext;
 			return ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
 				if(typeof action != 'string' || !action) {
 					throw 'Invalid action';
@@ -158,11 +172,11 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				if(typeof callback != 'function') {
 					throw 'Invalid callback';
 				}
-				if(typeof context == 'function') {
+				if(typeof context == 'function' || typeof context == 'undefined' || context === null) {
 					throw 'Invalid context';
 				}
 				for(var x=0; x<id.length; x++) {
-					EventBus.addListener(id[x], action, callback, context || Loader.load(id) );
+					EventBus.addListener(id[x], action, callback, context );
 				}
 				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
@@ -182,6 +196,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				pushTask(this.once, [action, callback, context], this);
 				return;
 			}
+			context = context || defaultContext;
 			return ErrorHandler.execute(function(EventBus, Loader, id, action, callback, context) {
 				if(typeof action != 'string' || !action) {
 					throw 'Invalid action';
@@ -189,11 +204,11 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				if(typeof callback != 'function') {
 					throw 'Invalid callback';
 				}
-				if(typeof context == 'function') {
+				if(typeof context == 'function' || typeof context == 'undefined' || context === null) {
 					throw 'Invalid context';
 				}
 				for(var x=0; x<id.length; x++) {
-					EventBus.addListener(id[x], action, callback, context || Loader.load(id), true);
+					EventBus.addListener(id[x], action, callback, context, true);
 				}
 				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
@@ -225,7 +240,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					throw 'Invalid context';
 				}
 				for(var x=0; x<id.length; x++) {
-					EventBus.removeListener(id[x], action, callback, context);
+					EventBus.removeListener(id[x], action, callback, context || this);
 				}
 				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.off".')
