@@ -118,7 +118,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 							var inputs = DefinitionMgr.get(clazz).inputs;
 							if(inputs && typeof inputs[action] != 'undefined') {
 								if(inputs[action] !== null && payload !== null) {
-									Validator.validateAndThrow(inputs[action], data, 'Invalid payload for input ' + action + ' in ' + clazz + '.');
+									Validator.validateAndThrow(inputs[action], payload, 'Invalid payload for input ' + action + ' in ' + clazz + '.');
 								}
 								if(inputs[action] === null || inputs[action] === 'null') {
 									if(typeof payload != 'undefined' && payload !== null) {
@@ -131,7 +131,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 							var outputs = DefinitionMgr.get(clazz).outputs;
 							if(outputs && typeof outputs[action] != 'undefined') {
 								if(outputs[action] !== null && payload !== null) {
-									Validator.validateAndThrow(outputs[action], data, 'Invalid payload for output ' + action + ' in ' + clazz + '.');
+									Validator.validateAndThrow(outputs[action], payload, 'Invalid payload for output ' + action + ' in ' + clazz + '.');
 								}
 								if(outputs[action] === null || outputs[action] === 'null') {
 									if(typeof payload != 'undefined' && payload !== null) {
