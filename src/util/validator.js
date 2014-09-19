@@ -23,6 +23,22 @@ Shell.include('Util/Validator', null, function () {
 		};
 	};
 
+    /**
+     * Validate against DOM element
+     * 
+     * @method
+     * @private
+     * @param data {object}
+     */
+    var validateDomElement = function(data) {
+        try {
+            return data instanceof HTMLElement;
+        }
+        catch(e) {
+            return data.nodeType;
+        }
+    };
+
 	/**
 	 * Validation rules. This can be extended to support jquery and other type of variables
 	 */
@@ -32,6 +48,7 @@ Shell.include('Util/Validator', null, function () {
 	rules['boolean'] = getNativeTypeValidator('boolean');
 	rules['array'] = getNativeTypeValidator('array');
 	rules['object'] = getNativeTypeValidator('object');
+    rules['dom'] = validateDomElement;
 	
 	// Public interfaces
 	return {
@@ -54,7 +71,12 @@ Shell.include('Util/Validator', null, function () {
 			}
 			else if(typeof structure == 'string') {
 				var validator = rules[structure];
-				return validator(data);
+                if(validator) {
+                    return validator(data);
+                }
+                else {
+                    return false;
+                }
 			}
 			else if(typeof structure == 'object' && typeof data == 'object'){
 				for(var key in data) {
