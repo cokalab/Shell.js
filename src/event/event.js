@@ -4,7 +4,8 @@
  * @module Event/Event
  */ 
 Shell.include('Event/Event', null, function() {
-
+    "use strict";
+    
 	/**
 	 * @class
 	 * @param channel {string}

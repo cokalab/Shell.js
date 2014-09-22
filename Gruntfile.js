@@ -43,7 +43,7 @@ module.exports = function (grunt) {
         watch: {
             script: {
                 files: ['src/**/*.js', 'test/**/*.js'],
-                tasks: ['build'],
+                tasks: ['build', 'jsdoc'],
                 options: {
                     spawn: true,
                     livereload: true,

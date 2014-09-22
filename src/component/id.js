@@ -4,7 +4,8 @@
  * @module Component/Id
  */
 Shell.include('Component/Id', null, function() {
-	
+    "use strict";
+    
 	var counter = 0;
 	
 	return {

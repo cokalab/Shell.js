@@ -11,7 +11,8 @@
  * @requires module:Util/Validator
  */
 Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(EventBus, Loader, DefinitionMgr, Lookup, ErrorHandler, Logger, Validator) {
-	
+    "use strict";
+    
 	/**
 	 * @class
 	 * @param id {string|string[]} ID of one or multiple components
@@ -73,7 +74,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				var task = taskQueue[x];
 				task.method.apply(task.context, task.args);
 			}
-			return this
+			return this;
 		};
 		
 		/**
@@ -153,7 +154,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					EventBus.trigger(id[x], action, payload);
 				}
 				return this;
-			}, [EventBus, id, action, payload], this, 'Encountered error in "Component/Interface.trigger".')
+			}, [EventBus, id, action, payload], this, 'Encountered error in "Component/Interface.trigger".');
 			
 		};
 		
@@ -185,7 +186,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					EventBus.addListener(id[x], action, callback, context );
 				}
 				return this;
-			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".');
 		};
 		
 		/**
@@ -217,7 +218,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					EventBus.addListener(id[x], action, callback, context, true);
 				}
 				return this;
-			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".')
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".');
 			
 		};
 		
@@ -249,7 +250,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					EventBus.removeListener(id[x], action, callback, context || this);
 				}
 				return this;
-			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.off".')
+			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.off".');
 			
 		};
 		
@@ -274,10 +275,10 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					Lookup.remove(id);
 					EventBus.removeListener(id[x]);
 				}
-			}, [EventBus, Loader, DefinitionMgr, Lookup, id], this, 'Encountered error in "Component/Interface.destroy".')
+			}, [EventBus, Loader, DefinitionMgr, Lookup, id], this, 'Encountered error in "Component/Interface.destroy".');
 			
 		};
-	}
+	};
 	
 	return Interface;
 	

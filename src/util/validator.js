@@ -58,7 +58,7 @@ Shell.include('Util/Validator', null, function () {
 		 * 
 		 * @method
 		 * @param structure {?(object | string)} Expected data structure
-		 * @param data {?(object | string | number | boolean | object)} Actual data to be validated.
+		 * @param data {?any} Actual data to be validated.
 		 */
 		validate: function (structure, data) {
 			if(typeof structure == 'undefined' || structure === null || structure === 'null') {

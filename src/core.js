@@ -54,7 +54,7 @@ Shell.include = (function() {
         }
         // Instantiate the current module with all dependencies passed in as arguments
         module.instance = module.constructor.apply({}, args);
-        module.instance = typeof module.instance != 'undefined' && module.instance != null ? module.instance : {};
+        module.instance = typeof module.instance != 'undefined' && module.instance !== null ? module.instance : {};
         return true;
     };
     

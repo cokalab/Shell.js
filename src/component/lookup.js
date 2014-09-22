@@ -5,7 +5,8 @@
  * @requires module:Util/Logger
  */
 Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Logger, Registry) {
-	
+    "use strict";
+    
 	var LookupRegistry = new Registry('Component/Lookup');
 	var ReversedLookupRegistry = new Registry('Component/Lookup/Reversed');
 	
@@ -22,7 +23,7 @@ Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Log
 			ids.push(id);
 		}
 		LookupRegistry.set(key, ids);		
-	}
+	};
 	
 	return {
 	
@@ -41,7 +42,7 @@ Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Log
 			_register(id, id);
 			_register(id, clazz);
 			ReversedLookupRegistry.set(id, clazz);
-			Logger.debug('Registered lookup information.', {'id': id, 'class': clazz})
+			Logger.debug('Registered lookup information.', {'id': id, 'class': clazz});
 		},
 		
 		/**
@@ -98,7 +99,7 @@ Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Log
 			}
 			ReversedLookupRegistry.remove(id);
 			LookupRegistry.remove(id);
-			ids = LookupRegistry.get(clazz);
+			var ids = LookupRegistry.get(clazz);
 			var pos = ids.indexOf(id);
 			if(pos >= 0) {
 				ids.splice(pos, 1);
@@ -109,7 +110,7 @@ Shell.include('Component/Lookup', ['Util/Logger', 'Util/Registry'], function(Log
 					LookupRegistry.remove(clazz);
 				}
 			}
-			Logger.debug('Removed lookup information.', {'id': id, 'class': clazz})
+			Logger.debug('Removed lookup information.', {'id': id, 'class': clazz});
 		}
 		
 	};

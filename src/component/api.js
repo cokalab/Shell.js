@@ -13,7 +13,7 @@
  * @requires module:Util/Validator
  */
 Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(EventBus, IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger, Validator) {
-	"use strict"
+	"use strict";
 	
 	// Interface queue
 	// New interface is pushed to the queue when a component is instantiated and poped after component is created.
@@ -107,9 +107,10 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 			if( (typeof selector != 'string' && typeof selector != 'object') || !selector) {
 				throw 'Invalid selector.';
 			}
+			var ids, shell;
 			if (typeof selector == 'string') {
-				var ids = Lookup.lookup(selector);
-				var shell = new Interface(ids, false).initialize();
+				ids = Lookup.lookup(selector);
+				shell = new Interface(ids, false).initialize();
 				return shell;
 			}
 			else if(typeof selector == 'object') {
@@ -117,8 +118,8 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 					return selector.Shell();
 				}
 				else {
-					var ids = Loader.lookup(selector);
-					var shell = new Interface(ids, true).initialize();
+					ids = Loader.lookup(selector);
+					shell = new Interface(ids, true).initialize();
 					return shell;
 				}
 			}

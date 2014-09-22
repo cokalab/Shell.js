@@ -6,7 +6,8 @@
  * @requires module:Util/Logger
  */
 Shell.include('Component/Definition', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
-	
+    "use strict";
+    
 	var requiredDefinitionFields = [];
 	
 	var DefintionRegistry = new Registry('Component/definition');
@@ -59,6 +60,6 @@ Shell.include('Component/Definition', ['Util/Registry', 'Util/Logger'], function
 			Logger.debug('Set component definition.', {clazz: clazz, config: config});
 		}
 		
-	}
+	};
 	
 });

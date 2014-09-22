@@ -5,7 +5,8 @@
  * @requires module:Event/Event
  */
 Shell.include('Event/Listener', ['Event/Event'], function() {
-
+    "use strict";
+    
 	/**
 	 * @class
 	 * @param callback {function}
