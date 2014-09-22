@@ -38,6 +38,17 @@ module.exports = function (grunt) {
                     destination: 'dist/doc'
                 }
             }
+        },
+
+        watch: {
+            script: {
+                files: ['src/**/*.js', 'test/**/*.js'],
+                tasks: ['build'],
+                options: {
+                    spawn: true,
+                    livereload: true,
+                },
+            }
         }
     });
 
@@ -45,9 +56,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jsdoc');
 
-    grunt.registerTask('default', ['concat', 'uglify', 'jasmine', 'doc']);
+    grunt.registerTask('default', ['build', 'doc']);
     grunt.registerTask('build', ['concat', 'uglify', 'jasmine']);
     grunt.registerTask('doc', ['concat', 'jsdoc']);
 

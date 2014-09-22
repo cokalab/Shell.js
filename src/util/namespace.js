@@ -5,7 +5,7 @@
  * @module Util/Namespace
  */
 Shell.include('Util/Namespace', null, function() {
-	'use strict'
+    "use strict";
 	
     return {
 
@@ -39,6 +39,6 @@ Shell.include('Util/Namespace', null, function() {
             }
         }
     
-    }
+    };
     
 });

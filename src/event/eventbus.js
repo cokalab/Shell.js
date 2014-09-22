@@ -12,7 +12,10 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 	 * Event bus implementation (singleton)
 	 */
 	var EventBus = new function(){
-		
+
+        // Interceptors storage
+        var interceptors = {};
+        
 		// Listener storage
 		var listeners = {};
 		
@@ -27,6 +30,10 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		 * @param once {?boolean} If set to true, listener is removed right after. 
 		 */
 		this.trigger = function(channel, action, payload, once) {
+		    for(var key in interceptors) {
+		        var interceptor = interceptors[key];
+		        payload = interceptor.callback.apply(interceptor.context, [payload]);
+		    }
 			if(listeners[channel] && listeners[channel][action]) {
 				var iListeners = listeners[channel][action];
 				for(var x = 0; x<iListeners.length; x++) {
@@ -38,6 +45,32 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 				}
 			}
 			Logger.debug('Triggered event', {channel: channel, action: action, payload: payload});
+		};
+		
+		/**
+		 * Add interceptor. 
+		 * Intercept an event and alter the payload if needed.
+		 * 
+		 * @method
+		 * @param name {string}
+		 * @param callback {function}
+         * @param context {string|boolean|number|object}
+		 */
+		this.addInterceptor = function(name, callback, context) {
+		    interceptors[name] = {
+	            callback: callback,
+	            context: context
+		    };
+		};
+
+        /**
+         * Remove an interceptor. 
+         * 
+         * @method
+         * @param name {string}
+         */
+		this.removeInterceptor = function(name) {
+		    delete interceptors[name];
 		};
 		
 		/**

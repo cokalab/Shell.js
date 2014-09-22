@@ -1,5 +1,6 @@
 describe('Shell.include', function () {
-	
+    "use strict";
+    
     it('Include core module without dependency', function () {
     	var status = false;
     	Shell.include('core-1', null, function() {
@@ -11,7 +12,7 @@ describe('Shell.include', function () {
     it('Include core module with one dependency', function () {
     	var status = false;
     	Shell.include('core-2', null, function() {
-    		return 'core-2'
+    		return 'core-2';
     	});
     	Shell.include('core-3', ['core-2'], function(core2) {
     		expect(core2).toEqual('core-2');
@@ -23,10 +24,10 @@ describe('Shell.include', function () {
     it('Include core module with multiple dependencies', function () {
     	var status = false;
     	Shell.include('core-4', null, function() {
-    		return 'core-4'
+    		return 'core-4';
     	});
     	Shell.include('core-5', null, function() {
-    		return 'core-5'
+    		return 'core-5';
     	});
     	Shell.include('core-6', ['core-4', 'core-5'], function(core4, core5) {
     		expect(core4).toEqual('core-4');

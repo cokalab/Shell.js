@@ -43,12 +43,12 @@ Shell.include('Util/Validator', null, function () {
 	 * Validation rules. This can be extended to support jquery and other type of variables
 	 */
 	var rules = {};
-	rules['string'] = getNativeTypeValidator('string');
-	rules['number'] = getNativeTypeValidator('boolean');
-	rules['boolean'] = getNativeTypeValidator('boolean');
-	rules['array'] = getNativeTypeValidator('array');
-	rules['object'] = getNativeTypeValidator('object');
-    rules['dom'] = validateDomElement;
+	rules.string = getNativeTypeValidator('string');
+	rules.number = getNativeTypeValidator('boolean');
+	rules.boolean = getNativeTypeValidator('boolean');
+	rules.array = getNativeTypeValidator('array');
+	rules.object = getNativeTypeValidator('object');
+    rules.dom = validateDomElement;
 	
 	// Public interfaces
 	return {
@@ -91,21 +91,7 @@ Shell.include('Util/Validator', null, function () {
 				return true;
 			}
 			return false;
-		},
-		
-		/**
-		 * Validate data structure and throw an exception if data is not validated
-		 * 
-		 * @method
-		 * @param structure {?(object | string)} Expected data structure
-		 * @param data {?(object | string | number | boolean | object)} Actual data to be validated.
-		 * @param errorMsg {string} Error to be thrown 
-		 */
-		validateAndThrow: function(structure, data, errorMsg) {
-			if(!this.validate(structure, data)) {
-				throw errorMsg;
-			}
 		}
-	}
+	};
 
 });

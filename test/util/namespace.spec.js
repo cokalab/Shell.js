@@ -1,8 +1,9 @@
 Shell.include('Test/Util/Namespace', ['Util/Namespace'], function(Namespace) {
-
+    "use strict";
+    
     describe('Util/Namespace.exportMethod', function () {
         
-        noop = function() {};
+        var noop = function() {};
         
         it('Export method to level one namespace', function () {
             Namespace.exportMethod('noop', noop);

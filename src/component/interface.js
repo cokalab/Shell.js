@@ -110,7 +110,9 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				return;
 			}
 			return ErrorHandler.execute(function(EventBus, id, action, payload) {
-				Validator.validateAndThrow('string', action, 'Invalid action.');
+				if(!Validator.validate('string', action)) {
+				    throw 'Invalid event action.';
+				}
 				for(var x=0; x<id.length; x++) {
 					var clazz = Lookup.lookupClass(id[x]);
 					if(DefinitionMgr.get(clazz).strict !== false) {
@@ -118,7 +120,9 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 							var inputs = DefinitionMgr.get(clazz).inputs;
 							if(inputs && typeof inputs[action] != 'undefined') {
 								if(inputs[action] !== null && payload !== null) {
-									Validator.validateAndThrow(inputs[action], payload, 'Invalid payload for input ' + action + ' in ' + clazz + '.');
+					                if(!Validator.validate(inputs[action], payload)) {
+					                    throw 'Invalid payload for input ' + action + ' in ' + clazz + '.';
+					                }
 								}
 								if(inputs[action] === null || inputs[action] === 'null') {
 									if(typeof payload != 'undefined' && payload !== null) {
@@ -131,7 +135,9 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 							var outputs = DefinitionMgr.get(clazz).outputs;
 							if(outputs && typeof outputs[action] != 'undefined') {
 								if(outputs[action] !== null && payload !== null) {
-									Validator.validateAndThrow(outputs[action], payload, 'Invalid payload for output ' + action + ' in ' + clazz + '.');
+								    if(!Validator.validate(outputs[action], payload)) {
+								        throw 'Invalid payload for output ' + action + ' in ' + clazz + '.';
+								    }
 								}
 								if(outputs[action] === null || outputs[action] === 'null') {
 									if(typeof payload != 'undefined' && payload !== null) {
@@ -263,6 +269,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					if(DefinitionMgr.get(clazz).indestructible) {
 						continue;
 					}
+					EventBus.trigger(id[x], 'destroy');
 					Loader.destroy(id[x]);
 					Lookup.remove(id);
 					EventBus.removeListener(id[x]);

@@ -6,7 +6,7 @@
  */
 Shell.include('Util/Logger', ['Util/Namespace'], function(Namespace) {
 
-	var Logger = new function() {
+	var Logger = (function() {
 		
 		// Logging enable status
 		var enable = true;
@@ -18,8 +18,9 @@ Shell.include('Util/Logger', ['Util/Namespace'], function(Namespace) {
 	    if(typeof console === "undefined") {
 	        console = {};
 	        var methods = ['log', 'info', 'debug', 'warn', 'error'];
+	        var noop = function() {};
 	        for(var x=0; x<methods.length; x++) {
-	            console[methods[x]] = function() {};
+	            console[methods[x]] = noop;
 	        }
 	    }
 	
@@ -35,7 +36,7 @@ Shell.include('Util/Logger', ['Util/Namespace'], function(Namespace) {
 	    	if(enable) {
 	    		console[action].apply(console, args);
 	    	}
-	    }
+	    };
 	    
 	    // Public interfaces
 	    return {
@@ -130,7 +131,7 @@ Shell.include('Util/Logger', ['Util/Namespace'], function(Namespace) {
 	        
 	    };
 	    
-	} ();
+	}) ();
 	
 	/**
 	 * Set logging level

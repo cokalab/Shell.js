@@ -1,5 +1,6 @@
 Shell.include('Test/Util/Registry', ['Util/Registry', 'Util/Logger'], function(Registry, Logger) {
-
+    "use strict";
+    
     describe('Util.Registry', function () {
         
     	beforeEach(function() {

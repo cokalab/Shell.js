@@ -28,9 +28,10 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         });
 
         it('Construct', function () {
-        	var shell = new Interface('id').initialize();
+            var shell;
+        	shell = new Interface('id').initialize();
         	expect(shell.getComponents()).toEqual(['id']);
-        	var shell = new Interface(['1', '2', '3']);
+        	shell = new Interface(['1', '2', '3']);
         	expect(shell.getComponents()).toEqual(['1', '2', '3']);
         });
 
@@ -38,7 +39,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var flag = false;
         	var foo = function() {
         		flag = true;
-        	}
+        	};
         	// Add listener
         	var shell = new Interface('id').initialize();
         	shell.on('input', foo, this);
@@ -56,7 +57,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var flag = false;
         	var foo = function() {
         		flag = true;
-        	}
+        	};
         	// Add listener
         	var shell = new Interface('id', true).initialize();
         	shell.on('output', foo, this);
@@ -74,7 +75,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var counter = 0;
         	var foo = function() {
         		counter ++;
-        	}
+        	};
         	var shell = new Interface('id').initialize();
         	shell.on('input', foo, this);
         	shell.on('input', foo, this);
@@ -86,11 +87,11 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var counter = 0;
         	var foo = function() {
         		counter ++;
-        	}
+        	};
         	var shell = new Interface('id').initialize();
         	shell.on('input', function() {}, this);
         	shell.on('input', function() {}, this);
-        	shell.off('input')
+        	shell.off('input');
         	expect(EventBus.isListener('id', 'input')).toEqual(false);
         });
 
@@ -98,7 +99,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         	var counter = 0;
         	var foo = function() {
         		counter ++;
-        	}
+        	};
         	var context = {};
         	var shell = new Interface('id-once').initialize();
         	shell.once('input', foo, this);
@@ -108,9 +109,14 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
         });
 
         it('Destroy', function() {
+            var destroyed = false;
+            EventBus.addListener('id', 'destroy', function() {
+                destroyed = true;
+            });
         	var shell = new Interface('id').initialize();
         	shell.destroy();
         	expect(Loader.exist('id')).toEqual(false);
+        	expect(destroyed).toEqual(true);
         });
 
         it('Trigger with invalid action', function () {

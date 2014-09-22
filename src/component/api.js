@@ -12,7 +12,7 @@
  * @requires module:Util/Logger
  * @requires module:Util/Validator
  */
-Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger, Validator) {
+Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(EventBus, IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger, Validator) {
 	"use strict"
 	
 	// Interface queue
@@ -31,8 +31,12 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 	 */
 	Namespace.exportMethod('define', function(clazz, definition, constructor) {
 		ErrorHandler.execute(function(clazz, definition, constructor) {
-			Validator.validateAndThrow('string', clazz, 'Invalid class name.');
-			Validator.validateAndThrow('object', definition, 'Invalid definition.');
+		    if(!Validator.validate('string', clazz)) {
+		        throw 'Invalid component class name.';
+		    }
+		    if(!Validator.validate('object', definition)) {
+                throw 'Invalid component definition.';
+            }
 			if(typeof constructor != 'function') {
 				throw 'Invalid constructor function.';
 			}
@@ -80,10 +84,13 @@ Shell.include('Component/Api', ['Component/Id', 'Component/Definition', 'Compone
 			// Pop the last interface from the queue after it's done and load the one before.
 			ComponentInterfaceQueue[ComponentInterfaceQueue.length-1].initialize();
 			ComponentInterfaceQueue.pop();
+			// Trigger initialize
+			EventBus.trigger(id, 'initialize');
 			return new Interface(id).initialize();
 		}, [clazz], {
 			DefinitionMgr: DefinitionMgr,
-			Loader: Loader
+			Loader: Loader,
+			EventBus: EventBus
 		}, 'Encountered error in "Shell.create".');
 
 	});

@@ -1,5 +1,6 @@
 Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
-
+    "use strict";
+    
 	describe('Util/Validator.validate', function () {
 
 		it('Validate native type', function () {
@@ -70,10 +71,5 @@ Shell.include('Test/Util/Validator', ['Util/Validator'], function (Validator) {
 			})).toEqual(false);
 		});
 
-		it('Validate, fail and throw', function() {
-			expect(function() {
-				Validator.validateAndThrow('string', 123, 'Invalid parameter');
-			}).toThrow();
-		});
 		
 	});});

@@ -33,8 +33,13 @@ Shell.include('Test/Component/Api', ['Component/Api', 'Component/Loader', 'Compo
     			},
     			singleton: true
     		};
+        	var init = false;
         	var constructor = function() {
         		this.ids = this.Shell().getComponents();
+        		Shell.find(this)
+        		.on('initialize', function() {
+        		    init = true;
+        		}, this);
         	};
         	Shell.define('class-2', definition, constructor);
         	var shell = Shell.create('class-2');
@@ -43,6 +48,7 @@ Shell.include('Test/Component/Api', ['Component/Api', 'Component/Loader', 'Compo
         	var component = Loader.load('class-2');
         	expect(component.ids).toEqual(['class-2']);
         	expect(typeof component.Shell).toEqual('string');
+        	expect(init).toEqual(true);
         });
 
         it('Find', function () {

@@ -71,6 +71,14 @@ Shell.include('Test/Event/EventBus', ['Event/EventBus', 'Event/Event', 'Event/Li
             expect(tester.callback2).toHaveBeenCalled();
         });
 
+        it('Interceptor', function () {
+            var tester = {};
+            tester.callback1 = function() {};
+            tester.callback2 = function() {};
+            spyOn(tester, 'callback1');
+            spyOn(tester, 'callback2');
+        });
+
         it('Reset', function () {
             var noop = function() {};
             EventBus.addListener('channel', 'action', noop, this);
