@@ -15,7 +15,7 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 	var EventBus = (function(){
 
         // Interceptors storage
-        var interceptors = {};
+        var interceptors = [];
         
 		// Listener storage
 		var listeners = {};
@@ -35,12 +35,15 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
     		trigger: function(channel, action, payload, once) {
     		    for(var key in interceptors) {
     		        var interceptor = interceptors[key];
-    		        payload = interceptor.callback.apply(interceptor.context, [payload]);
+    		        var rsp = interceptor.callback.apply(interceptor.context, [new Event(channel, action, payload)]);
+    		        if(rsp.overwrite) {
+        		        payload = rsp.payload;
+    		        }
     		    }
-    			if(listeners[channel] && listeners[channel][action]) {
+    		    if(listeners[channel] && listeners[channel][action]) {
     				var iListeners = listeners[channel][action];
     				for(var x = 0; x<iListeners.length; x++) {
-    					iListeners[x].execute(new Event(channel, action, payload));
+                        iListeners[x].execute(new Event(channel, action, payload));
     					if(iListeners[x].isOneTime()) {
     						iListeners.splice(x, 1);
     						x--;
@@ -55,27 +58,16 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
     		 * Intercept all events traveling through the event bus and alter payload or stop the flow of events if necessary.
     		 * 
     		 * @method
-    		 * @param name {string}
     		 * @param callback {function}
              * @param context {string|boolean|number|object}
     		 */
-    		addInterceptor: function(name, callback, context) {
-    		    interceptors[name] = {
+    		addInterceptor: function(callback, context) {
+    		    interceptors.push({
     	            callback: callback,
     	            context: context
-    		    };
+    		    });
     		},
     
-            /**
-             * Remove an interceptor. 
-             * 
-             * @method
-             * @param name {string}
-             */
-    		removeInterceptor: function(name) {
-    		    delete interceptors[name];
-    		},
-    		
     		/**
     		 * Add a new listener.
     		 * 
@@ -162,7 +154,7 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
     		 */
     		reset: function() {
     			listeners = {};
-    			interceptors = {};
+    			interceptors = [];
     		}
 	    };
 	

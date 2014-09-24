@@ -15,21 +15,6 @@ Shell.include('Component/Definition', ['Util/Registry', 'Util/Logger'], function
 	return {
 		
 		/**
-		 * Add required field that must be included in component definition.
-		 * This is useful if plug-in needs additional fields.
-		 * 
-		 * @method
-		 * @static
-		 * @param field {string} Additional required field
-		 */
-		addRequiredDefinitionField: function(field) {
-			if(requiredDefinitionFields.indexOf(field.toLowerCase()) < 0) {
-				requiredDefinitionFields.push(field);
-				Logger.debug('Set component definition required field.', {field: field});
-			}
-		},
-		
-		/**
 		 * Get component definition
 		 * 
 		 * @method

@@ -48,8 +48,9 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
              * @method 
              * @param id {string] Component unique ID
              * @param clazz {string} Component class name, used to instantiate a component.
+             * @param payload {} Directly passed to the constructor. 
              */
-            load: function(id, clazz) {
+            load: function(id, clazz, payload) {
                 // Return component if it is already instantiated.
                 if(ComponentRegistry.exist(id)) {
                     Logger.debug('Loaded component from registry', {id: id});
@@ -60,7 +61,7 @@ Shell.include('Component/Loader', ['Util/Registry', 'Util/Logger'], function(Reg
                     throw 'Constructor is not defined yet for ' + clazz;
                 }
                 var Constructor = ConstructorRegistry.get(clazz);
-                var component = new Constructor();
+                var component = new Constructor(payload);
                 Logger.debug('Instantiated component', {id: id, clazz: clazz});
                 ComponentRegistry.set(id, component);
                 return component;

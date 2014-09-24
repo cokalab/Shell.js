@@ -11,14 +11,7 @@ Shell.include('Test/Component/Definition', ['Component/Definition', 'Util/Logger
         });
         
         it('Set and get', function () {
-        	var definition = {
-    			events: {
-    				'show': {
-    					payload: null
-    				}
-    			}
-    		};
-        	DefinitionMgr.addRequiredDefinitionField('events');
+        	var definition = {};
         	DefinitionMgr.set('class', definition);
         	expect(DefinitionMgr.get('class')).toEqual(definition);
         });

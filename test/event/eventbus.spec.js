@@ -72,21 +72,24 @@ Shell.include('Test/Event/EventBus', ['Event/EventBus', 'Event/Event', 'Event/Li
         });
 
         it('Interceptor', function () {
+            var event = new Event('channel', 'action', '123');
             var tester = {};
             var count = 0;
-            tester.callback1 = function(data) {
-                return 123;
-            };
+            tester.callback1 = function(data) {};
             tester.callback2 = function(data) {};
             spyOn(tester, 'callback1').and.callFake(function() {
-                return 123;
+                return {
+                    overwrite: true,
+                    payload: '123'
+                };
             });
             spyOn(tester, 'callback2');
             EventBus.addListener('channel', 'action', tester.callback2, tester);
-            EventBus.addInterceptor('Interceptor', tester.callback1, tester);
+            EventBus.addInterceptor(tester.callback1, tester);
             EventBus.trigger('channel', 'action');
             expect(tester.callback1).toHaveBeenCalled();
-            expect(tester.callback2).toHaveBeenCalledWith(123);
+            expect(tester.callback2).toHaveBeenCalledWith('123');
+            
             
         });
 

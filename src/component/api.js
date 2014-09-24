@@ -30,7 +30,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 	 * @param constructor {function} Constructor function
 	 */
 	Namespace.exportMethod('define', function(clazz, definition, constructor) {
-		ErrorHandler.execute(function(clazz, definition, constructor) {
+		return ErrorHandler.execute(function(clazz, definition, constructor) {
 		    if(!Validator.validate('string', clazz)) {
 		        throw 'Invalid component class name.';
 		    }
@@ -76,7 +76,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 			// Create an interface and push it to the queue
 			ComponentInterfaceQueue.push(new Interface(id, true));
 			// Load object
-			var component = this.Loader.load(id, clazz); 
+			var component = this.Loader.load(id, clazz, new Interface(id).initialize()); 
 			// Register lookup data
 			Lookup.register(id, clazz);
 			// Overwrite prototype
