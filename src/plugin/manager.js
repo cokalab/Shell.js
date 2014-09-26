@@ -62,7 +62,7 @@ Shell.include('Plugin/Manager', ['Component/Definition', 'Component/Lookup', 'Co
                         if(!Validator.validate(structure, payload)) {
                             throw 'Invalid payload for input ' + action + ' in "' + name + '" plug-in.';
                         }
-                        payload = callback.call(context, payload);
+                        payload = callback.call(context, payload, {id: id, clazz: clazz});
                     }
                     response.overwrite = true;
                     response.payload = payload; 
