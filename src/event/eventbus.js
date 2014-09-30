@@ -33,13 +33,13 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
     		 * @param once {?boolean} If set to true, listener is removed right after. 
     		 */
     		trigger: function(channel, action, payload, once) {
-    		    for(var key in interceptors) {
-    		        var interceptor = interceptors[key];
-    		        var rsp = interceptor.callback.apply(interceptor.context, [new Event(channel, action, payload)]);
-    		        if(rsp.overwrite) {
-        		        payload = rsp.payload;
-    		        }
-    		    }
+                for(var a=0; a<interceptors.length; a++) {
+                    var interceptor = interceptors[a];
+                    var rsp = interceptor.callback.apply(interceptor.context, [new Event(channel, action, payload)]);
+                    if(rsp.overwrite) {
+                        payload = rsp.payload;
+                    }
+                }
     		    if(listeners[channel] && listeners[channel][action]) {
     				var iListeners = listeners[channel][action];
     				for(var x = 0; x<iListeners.length; x++) {
