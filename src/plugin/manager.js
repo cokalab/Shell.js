@@ -55,7 +55,7 @@ Shell.include('Plugin/Manager', ['Component/Definition', 'Component/Lookup', 'Co
                     var id = event.getChannel();
                     var clazz = Lookup.lookupClass(id);
                     var definition = Definition.get(clazz);
-                    if(definition && definition.inputs && definition.inputs[action]) {
+                    if(definition && definition.inputs && typeof definition.inputs[action] != 'undefined') {
                         return response;
                     }
                     else {

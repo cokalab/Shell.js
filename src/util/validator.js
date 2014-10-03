@@ -39,6 +39,22 @@ Shell.include('Util/Validator', null, function () {
         }
     };
 
+    /**
+     * Validate against DOM element
+     * 
+     * @method
+     * @private
+     * @param data {object}
+     */
+    var validateNullableDomElement = function(data) {
+        if(typeof data == 'undefined' || data == null) {
+            return true;
+        }
+        else {
+            return validateDomElement(data);
+        }
+    };
+
 	/**
 	 * Validation rules. This can be extended to support jquery and other type of variables
 	 */
@@ -49,6 +65,7 @@ Shell.include('Util/Validator', null, function () {
 	rules.array = getNativeTypeValidator('array');
 	rules.object = getNativeTypeValidator('object');
     rules.dom = validateDomElement;
+    rules['dom|null'] = validateNullableDomElement;
 	
 	// Public interfaces
 	return {
