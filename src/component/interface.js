@@ -1,6 +1,6 @@
 /**
  * Component interface is basically a wrapper around the object itself providing methods to communicate with other components over the event bus.
- * 
+ *
  * @module Component/Interface
  * @requires module:Event/EventBus
  * @requires module:Component/Loader
@@ -12,7 +12,7 @@
  */
 Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Component/Definition', 'Component/Lookup', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(EventBus, Loader, DefinitionMgr, Lookup, ErrorHandler, Logger, Validator) {
     "use strict";
-    
+
 	/**
 	 * @class
 	 * @param id {string|string[]} ID of one or multiple components
@@ -20,34 +20,34 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 	 * @alias module:Component/Interface
 	 */
 	var Interface = function(id, self) {
-		
+
 		// Transform id into an array if it is provided as a string value.
 		if(typeof id == 'string') {
 			id = [id];
 		}
-		
-		// Event queue. 
+
+		// Event queue.
 		var queue = [];
-		
+
 		// Task to be executed after component is instantiated.
 		var taskQueue = [];
-		
+
 		var ready = false;
-		
+
 		var defaultContext = null;
-		
+
 		/**
 		 * Return true if the interface is ready to be used. False otherwise.
-		 * 
+		 *
 		 * @return {boolean}
 		 */
 		var isReady = function() {
 			return ready;
 		};
-		
+
 		/**
 		 * Push task to task queue
-		 * 
+		 *
 		 * @method
 		 * @private
 		 * @param method {function}
@@ -59,11 +59,11 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				context: context,
 			});
 		};
-		
+
 		/**
 		 * Make the component ready and start executing tasks inside task queue.
 		 * "ready" method is removed afterward.
-		 * 
+		 *
 		 * @method
 		 * @return {module:Component/Interface}
 		 */
@@ -76,31 +76,31 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 			}
 			return this;
 		};
-		
+
 		/**
 		 * Set the default context binded to this interface.
 		 * Context becomes "this" variables in all the listener callback.
-		 * 
+		 *
 		 * @method
 		 * @param context {}
 		 */
 		this.setContext = function(context) {
 			defaultContext = context;
 		};
-		
+
 		/**
 		 * Return the IDs of the components registered to this Interface object.
-		 * 
+		 *
 		 * @method
 		 * @return Component IDs {string[]}
 		 */
 		this.getComponents = function() {
 			return id;
 		};
-		
+
 		/**
 		 * Trigger an event on behalf of all components registered to this Interface object.
-		 * 
+		 *
 		 * @method
 		 * @param action {string} Event action name
 		 * @param payload {?(string|number|boolean|object)} Passed to all the listeners
@@ -155,12 +155,12 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				}
 				return this;
 			}, [EventBus, id, action, payload], this, 'Encountered error in "Component/Interface.trigger".');
-			
+
 		};
-		
+
 		/**
 		 * Listen to an event on behalf of all components registered to this Interface object.
-		 * 
+		 *
 		 * @method
 		 * @param action {string} Event action name
 		 * @param callback {function} Callback function
@@ -188,11 +188,11 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".');
 		};
-		
+
 		/**
 		 * Listen to an event on behalf of all components registered to this Interface object.
 		 * The only difference is the listener will be removed after it is executed.
-		 * 
+		 *
 		 * @method
 		 * @param action {string} Event action name
 		 * @param callback {function} Callback function
@@ -219,13 +219,13 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				}
 				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.on".');
-			
+
 		};
-		
+
 		/**
 		 * Stop listening to an event on behalf of all components registered to this Interface object.
 		 * Action, callback, and context are optional to remove more specific listeners.
-		 * 
+		 *
 		 * @method
 		 * @param action {string} Event action name
 		 * @param callback {?function} Callback function
@@ -251,17 +251,26 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				}
 				return this;
 			}, [EventBus, Loader, id, action, callback, context], this, 'Encountered error in "Component/Interface.off".');
-			
+
 		};
-		
+
+        /**
+         * Empty method used by destroy event.
+         *
+         * @method
+         */
+		this.noop = function() {
+
+		};
+
 		/**
 		 * Destroy all components registered to this Interface object
-		 * 
+		 *
 		 * @method
 		 */
 		this.destroy = function() {
 			if(!isReady()) {
-				pushTask(this.destroy, [action, callback, context], this);
+				pushTask(this.destroy, ['destroy', this.noop, this], this);
 				return;
 			}
 			ErrorHandler.execute(function(EventBus, Loader, DefinitionMgr, Lookup, id) {
@@ -276,10 +285,10 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					EventBus.removeListener(id[x]);
 				}
 			}, [EventBus, Loader, DefinitionMgr, Lookup, id], this, 'Encountered error in "Component/Interface.destroy".');
-			
+
 		};
 	};
-	
+
 	return Interface;
-	
+
 });

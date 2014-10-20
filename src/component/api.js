@@ -1,6 +1,6 @@
 /**
  * Contains component life cycle public interfaces.
- * 
+ *
  * @module Component/Api
  * @requires module:Component/Id
  * @requires module:Component/Definition
@@ -14,15 +14,15 @@
  */
 Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Definition', 'Component/Loader', 'Component/Lookup', 'Component/Interface', 'Util/Namespace', 'Util/ErrorHandler', 'Util/Logger', 'Util/Validator'], function(EventBus, IdGenerator, DefinitionMgr, Loader, Lookup, Interface,  Namespace, ErrorHandler, Logger, Validator) {
 	"use strict";
-	
+
 	// Interface queue
 	// New interface is pushed to the queue when a component is instantiated and poped after component is created.
 	// This way "Shell" prototype is always set to the latest interface.
 	var ComponentInterfaceQueue = [];
-	
+
 	/**
 	 * Define a component
-	 * 
+	 *
 	 * @memberOf Shell
 	 * @method define
 	 * @param clazz {string} Component class name
@@ -56,7 +56,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 
 	/**
 	 * Create a new component
-	 * 
+	 *
 	 * @memberOf Shell
 	 * @method create
 	 * @param clazz {string} Component class name
@@ -76,7 +76,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 			// Create an interface and push it to the queue
 			ComponentInterfaceQueue.push(new Interface(id, true));
 			// Load object
-			var component = this.Loader.load(id, clazz, new Interface(id).initialize()); 
+			var component = this.Loader.load(id, clazz, new Interface(id).initialize());
 			// Register lookup data
 			Lookup.register(id, clazz);
 			// Overwrite prototype
@@ -97,7 +97,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 
 	/**
 	 * Find components
-	 * 
+	 *
 	 * @memberOf Shell
 	 * @method create
 	 * @param selector {string} Component id, class name, or context
@@ -130,7 +130,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 
 	/**
 	 * Destroy all components
-	 * 
+	 *
 	 * @memberOf Shell
 	 * @method destroy
 	 */
@@ -139,19 +139,19 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 			var ids = Lookup.getAll();
 			for(var x=0; x<ids.length; x++) {
 				var id = ids[x];
-				new Interface(ids).destroy();
-				
+				new Interface(id).initialize().destroy();
+
 			}
 			return Shell;
-		}, 
-		[Loader, DefinitionMgr, Lookup], this, 
+		},
+		[Loader, DefinitionMgr, Lookup], this,
 		'Encountered error in "Shell.create".');
 
 	});
-	
+
 	/**
 	 * Get component definition (debug)
-	 * 
+	 *
 	 * @memberOf Shell.debug
 	 * @method getDefinition
 	 * @param clazz {string} Component class name
@@ -172,7 +172,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 
 	/**
 	 * Get component constructor (debug)
-	 * 
+	 *
 	 * @memberOf Shell.debug
 	 * @method getConstructor
 	 * @param clazz {string} Component class name
@@ -190,5 +190,5 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 		}, 'Encountered error in "Shell.debug.getConstructor".');
 
 	});
-	
+
 });
