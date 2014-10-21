@@ -281,7 +281,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					}
 					EventBus.trigger(id[x], 'destroy');
 					Loader.destroy(id[x]);
-					Lookup.remove(id);
+					Lookup.remove(id[x]);
 					EventBus.removeListener(id[x]);
 				}
 			}, [EventBus, Loader, DefinitionMgr, Lookup, id], this, 'Encountered error in "Component/Interface.destroy".');
