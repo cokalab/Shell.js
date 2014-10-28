@@ -134,7 +134,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 	 * @memberOf Shell
 	 * @method destroy
 	 */
-	Namespace.exportMethod('Destroy', function() {
+	Namespace.exportMethod('destroy', function() {
 		return ErrorHandler.execute(function(Loader, DefinitionMgr, Lookup) {
 			var ids = Lookup.getAll();
 			for(var x=0; x<ids.length; x++) {
