@@ -7,7 +7,7 @@ Shell.include('Test/Plugin/Manager', ['Plugin/Manager'], function(PluginMgr) {
            var intercepted = 0;
            var destroyed = 0;
            var testCount = 0;
-           Shell.plugin.register('plugin', 'initialize', 'null', function() {
+           Shell.plugin.register('plugin', 'Initialize', 'null', function() {
                initialized++;
            }, this);
            Shell.plugin.register('plugin', 'test', 'string', function() {
@@ -15,7 +15,7 @@ Shell.include('Test/Plugin/Manager', ['Plugin/Manager'], function(PluginMgr) {
                testCount++
                return 'something nice';
            }, this);
-           Shell.plugin.register('plugin', 'destroy', 'null', function() {
+           Shell.plugin.register('plugin', 'Destroy', 'null', function() {
                destroyed++;
            }, this);
            

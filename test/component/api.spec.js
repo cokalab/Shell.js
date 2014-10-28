@@ -37,7 +37,7 @@ Shell.include('Test/Component/Api', ['Component/Api', 'Component/Loader', 'Compo
         	var constructor = function() {
         		this.ids = this.Shell().getComponents();
         		Shell.find(this)
-        		.on('initialize', function() {
+        		.on('Initialize', function() {
         		    init = true;
         		}, this);
         	};

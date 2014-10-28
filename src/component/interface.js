@@ -270,7 +270,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 		 */
 		this.destroy = function() {
 			if(!isReady()) {
-				pushTask(this.destroy, ['destroy', this.noop, this], this);
+				pushTask(this.destroy, ['Destroy', this.noop, this], this);
 				return;
 			}
 			ErrorHandler.execute(function(EventBus, Loader, DefinitionMgr, Lookup, id) {
@@ -279,7 +279,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 					if(DefinitionMgr.get(clazz).indestructible) {
 						continue;
 					}
-					EventBus.trigger(id[x], 'destroy');
+					EventBus.trigger(id[x], 'Destroy');
 					Loader.destroy(id[x]);
 					Lookup.remove(id[x]);
 					EventBus.removeListener(id[x]);

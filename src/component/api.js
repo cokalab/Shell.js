@@ -85,7 +85,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 			ComponentInterfaceQueue[ComponentInterfaceQueue.length-1].initialize();
 			ComponentInterfaceQueue.pop();
 			// Trigger initialize
-			EventBus.trigger(id, 'initialize');
+			EventBus.trigger(id, 'Initialize');
 			return new Interface(id).initialize();
 		}, [clazz], {
 			DefinitionMgr: DefinitionMgr,
@@ -134,7 +134,7 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 	 * @memberOf Shell
 	 * @method destroy
 	 */
-	Namespace.exportMethod('destroy', function() {
+	Namespace.exportMethod('Destroy', function() {
 		return ErrorHandler.execute(function(Loader, DefinitionMgr, Lookup) {
 			var ids = Lookup.getAll();
 			for(var x=0; x<ids.length; x++) {

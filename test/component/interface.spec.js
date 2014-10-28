@@ -110,7 +110,7 @@ Shell.include('Test/Component/Interface', ['Component/Interface', 'Event/EventBu
 
         it('Destroy', function() {
             var destroyed = false;
-            EventBus.addListener('id', 'destroy', function() {
+            EventBus.addListener('id', 'Destroy', function() {
                 destroyed = true;
             });
         	var shell = new Interface('id').initialize();
