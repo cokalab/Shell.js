@@ -14,8 +14,11 @@ Shell.include('Util/Validator', null, function () {
 	 * @param type {string} string, number, boolean, array, or object
 	 * @return validation method {function}
 	 */
-	var getNativeTypeValidator = function(type) {
+	var getNativeTypeValidator = function(type, nullable) {
 		return function(data) {
+		    if(nullable && (typeof data == 'undefined' || data === null)) {
+		        return true;
+		    }
 			if(typeof data == type && data !== null) {
 				return true;
 			}
@@ -59,11 +62,16 @@ Shell.include('Util/Validator', null, function () {
 	 * Validation rules. This can be extended to support jquery and other type of variables
 	 */
 	var rules = {};
-	rules.string = getNativeTypeValidator('string');
-	rules.number = getNativeTypeValidator('boolean');
-	rules.boolean = getNativeTypeValidator('boolean');
-	rules.array = getNativeTypeValidator('array');
-	rules.object = getNativeTypeValidator('object');
+	rules.string = getNativeTypeValidator('string', false);
+	rules.number = getNativeTypeValidator('number', false);
+	rules.boolean = getNativeTypeValidator('boolean', false);
+	rules.array = getNativeTypeValidator('array', false);
+	rules.object = getNativeTypeValidator('object', false);
+    rules['?string'] = getNativeTypeValidator('?string', true);
+    rules['?number'] = getNativeTypeValidator('?number', true);
+    rules['?boolean'] = getNativeTypeValidator('?boolean', true);
+    rules['?array'] = getNativeTypeValidator('?array', true);
+    rules['?object'] = getNativeTypeValidator('?object', true);
     rules.dom = validateDomElement;
     rules['dom|null'] = validateNullableDomElement;
 	
