@@ -37,14 +37,16 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 		    if(!Validator.validate('object', definition)) {
                 throw 'Invalid component definition.';
             }
-			if(typeof constructor != 'function') {
+			if(constructor && typeof constructor != 'function') {
 				throw 'Invalid constructor function.';
 			}
-			constructor.prototype.Shell = function() {
-				return ComponentInterfaceQueue[ComponentInterfaceQueue.length - 1];
-			};
-			DefinitionMgr.set(clazz, definition);
-			Loader.setConstructor(clazz, constructor);
+            DefinitionMgr.set(clazz, definition);
+            if(constructor) {
+    			constructor.prototype.Shell = function() {
+    				return ComponentInterfaceQueue[ComponentInterfaceQueue.length - 1];
+    			};
+    			Loader.setConstructor(clazz, constructor);
+            }
 			return Shell;
 		}, [clazz, definition, constructor],
 		{
@@ -53,6 +55,35 @@ Shell.include('Component/Api', ['Event/EventBus', 'Component/Id', 'Component/Def
 		}, 'Encountered error in "Shell.define".');
 
 	});
+
+    /**
+     * Implement a component
+     *
+     * @memberOf Shell
+     * @method implement
+     * @param clazz {string} Component class name
+     * @param definition {object} Component definition
+     * @param constructor {function} Constructor function
+     */
+    Namespace.exportMethod('implement', function(clazz, constructor) {
+        return ErrorHandler.execute(function(clazz, constructor) {
+            if(!Validator.validate('string', clazz)) {
+                throw 'Invalid component class name.';
+            }
+            if(typeof constructor != 'function') {
+                throw 'Invalid constructor function.';
+            }
+            constructor.prototype.Shell = function() {
+                return ComponentInterfaceQueue[ComponentInterfaceQueue.length - 1];
+            };
+            Loader.setConstructor(clazz, constructor);
+            return Shell;
+        }, [clazz, constructor],
+        {
+            Loader: Loader
+        }, 'Encountered error in "Shell.define".');
+
+    });
 
 	/**
 	 * Create a new component
