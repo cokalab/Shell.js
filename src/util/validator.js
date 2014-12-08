@@ -67,11 +67,11 @@ Shell.include('Util/Validator', null, function () {
 	rules.boolean = getNativeTypeValidator('boolean', false);
 	rules.array = getNativeTypeValidator('array', false);
 	rules.object = getNativeTypeValidator('object', false);
-    rules['?string'] = getNativeTypeValidator('?string', true);
-    rules['?number'] = getNativeTypeValidator('?number', true);
-    rules['?boolean'] = getNativeTypeValidator('?boolean', true);
-    rules['?array'] = getNativeTypeValidator('?array', true);
-    rules['?object'] = getNativeTypeValidator('?object', true);
+    rules['?string'] = getNativeTypeValidator('string', true);
+    rules['?number'] = getNativeTypeValidator('number', true);
+    rules['?boolean'] = getNativeTypeValidator('boolean', true);
+    rules['?array'] = getNativeTypeValidator('array', true);
+    rules['?object'] = getNativeTypeValidator('object', true);
     rules.dom = validateDomElement;
     rules['dom|null'] = validateNullableDomElement;
 	
