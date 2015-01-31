@@ -39,7 +39,10 @@ Shell.include('Event/Listener', ['Event/Event'], function() {
 		 * @param event {module:Event/Event}
 		 */
 		this.execute = function(event) {
-			callback.call(context, event.getPayload());
+			callback.call(context, event.getPayload(), {
+			    channel: event.getChannel(),
+			    action: event.getAction()
+			});
 		};
 
 		/**

@@ -20,6 +20,9 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
 		// Listener storage
 		var listeners = {};
     		
+		// Wild card listener storage
+		var wildCardListeners = [];
+		
 		return {
 		
     		/**
@@ -50,6 +53,11 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
     					}
     				}
     			}
+    		    if(wildCardListeners && wildCardListeners.length > 0) {
+    		        for (var x=0; x<wildCardListeners.length; x++) {
+    		            wildCardListeners[x].execute(new Event(channel, action, payload));
+    		        }
+    		    }
     			Logger.debug('Triggered event', {channel: channel, action: action, payload: payload});
     		},
     		
@@ -85,6 +93,10 @@ Shell.include('Event/EventBus', ['Event/Event', 'Event/Listener', 'Util/Logger']
     			Logger.debug('Added listener', {channel: channel, action: action, callback: callback, context: context});
     		},
     
+    		addWildCardListener: function(callback, context) {
+    		    wildCardListeners.push(new Listener(callback, context, false));
+    		},
+    		
     		/**
     		 * Remove a listener.
     		 * 

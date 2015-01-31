@@ -88,7 +88,7 @@ Shell.include('Test/Event/EventBus', ['Event/EventBus', 'Event/Event', 'Event/Li
             EventBus.addInterceptor(tester.callback1, tester);
             EventBus.trigger('channel', 'action');
             expect(tester.callback1).toHaveBeenCalled();
-            expect(tester.callback2).toHaveBeenCalledWith('123');
+            expect(tester.callback2).toHaveBeenCalledWith('123', { channel: 'channel', action: 'action' });
             
             
         });
