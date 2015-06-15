@@ -274,6 +274,7 @@ Shell.include('Component/Interface', ['Event/EventBus', 'Component/Loader', 'Com
 				return;
 			}
 			ErrorHandler.execute(function(EventBus, Loader, DefinitionMgr, Lookup, id) {
+			    id = id.slice(0);
 				for(var x=0; x<id.length; x++) {
 					var clazz = Lookup.lookupClass(id[x]);
 					if(DefinitionMgr.get(clazz).indestructible) {
